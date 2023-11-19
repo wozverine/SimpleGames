@@ -22,11 +22,13 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
     private fun goToSelect() {
         viewModel.splashState.observe(viewLifecycleOwner) { state ->
             when (state) {
-                SplashState.GoToSelectScreen -> {
-                    findNavController().navigate(R.id.selectGameFragment)
+                SplashState.GoToHome -> {
+                    findNavController().navigate(R.id.homeFragment)
                 }
 
-                else -> {}
+                else -> {
+                    findNavController().navigate(R.id.homeFragment)
+                }
             }
         }
     }

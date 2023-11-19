@@ -1,4 +1,4 @@
-package com.glitch.simplegames.ui.selectgame
+package com.glitch.simplegames.ui.home
 
 import android.os.Bundle
 import android.view.View
@@ -7,27 +7,30 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.glitch.simplegames.R
 import com.glitch.simplegames.common.viewBinding
-import com.glitch.simplegames.databinding.FragmentSelectGameBinding
+import com.glitch.simplegames.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SelectGameFragment : Fragment(R.layout.fragment_select_game) {
+class HomeFragment : Fragment(R.layout.fragment_home) {
 
-    private val binding by viewBinding(FragmentSelectGameBinding::bind)
-    private val viewModel: SelectGameViewModel by viewModels()
+    private val binding by viewBinding(FragmentHomeBinding::bind)
+    private val viewModel by viewModels<HomeViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.selectGame()
         goToGame()
     }
 
-    private fun goToGame() {
+    private fun goToGame() = with(binding) {
         viewModel.selectGameState.observe(viewLifecycleOwner) { state ->
             when (state) {
-                SelectGameViewModel.SelectGameState.GoToGame -> {
+                HomeViewModel.SelectGameState.GoToGame -> {
                     findNavController()
                 }
+
+                else -> {}
             }
         }
     }

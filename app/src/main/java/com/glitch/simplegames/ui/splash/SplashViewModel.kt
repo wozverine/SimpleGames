@@ -11,8 +11,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SplashViewModel @Inject constructor() :
-    ViewModel() {
+class SplashViewModel @Inject constructor(
+    //private val scoreRepository: ScoreRepository
+) : ViewModel() {
 
     private var _splashState = MutableLiveData<SplashState>()
     val splashState: LiveData<SplashState> get() = _splashState
@@ -25,10 +26,10 @@ class SplashViewModel @Inject constructor() :
     }
 
     private fun checkScore() = viewModelScope.launch {
-        _splashState.value = SplashState.GoToSelectScreen
+        _splashState.value = SplashState.GoToHome
     }
 }
 
 sealed interface SplashState {
-    object GoToSelectScreen : SplashState
+    object GoToHome : SplashState
 }

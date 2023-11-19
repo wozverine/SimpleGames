@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.glitch.simplegames.data.model.response.Score
 import com.glitch.simplegames.data.model.response.ScoreEntity
 
 @Dao
