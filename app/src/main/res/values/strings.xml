@@ -3,4 +3,7 @@
     <string name="tic_tac_toe">Tic Tac Toe</string>
     <string name="guess_the_number">Guess the number</string>
     <string name="choose_game">What would you like to play?</string>
+    <string name="game_name">Game Name</string>
+    <string name="high_score">High Score</string>
+    <string name="hundred">100</string>
 </resources>

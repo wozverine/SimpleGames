@@ -26,7 +26,7 @@
         android:padding="10sp"
         android:text="@string/choose_game"
         app:layout_constraintStart_toStartOf="@id/iv_hud_2_3"
-        app:layout_constraintTop_toTopOf="parent"></TextView>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/iv_hud_5"
@@ -39,36 +39,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/iv_hud_2_3" />
 
-
-    <LinearLayout
-        android:id="@+id/layout_linear"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_game_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:padding="30sp"
         android:paddingEnd="50sp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/iv_hud_5"
         app:layout_constraintStart_toStartOf="@id/iv_hud_5"
-        app:layout_constraintTop_toTopOf="@id/iv_hud_5"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:orientation="vertical">
-
-
-        <Button
-            android:id="@+id/btn_tic_tac_toe"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/tic_tac_toe"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_choose_game"/>
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/guess_the_number"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btn_tic_tac_toe"/>
-    </LinearLayout>
+        app:layout_constraintTop_toBottomOf="@id/iv_hud_2_3"
+        tools:itemCount="10"
+        tools:listitem="@layout/item_game_rv" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
