@@ -31,7 +31,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
 
         with(binding){
-            Database.addGames(1,"tictactoe",0)
+            Database.addGames(1,"tic_tac_toe",0)
             Database.addGames(1,"guess",0)
             gameAdapter.updateList(Database.getGames())
             rvGameList.adapter = gameAdapter
@@ -53,6 +53,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun onGameClick(id: Int, title: String){
+        if(title=="tic_tac_toe"){
+            findNavController().navigate(R.id.action_homeFragment_to_tictactoeFragment)
+        }
         Toast.makeText(requireContext(), title , Toast.LENGTH_SHORT).show()
     }
 }

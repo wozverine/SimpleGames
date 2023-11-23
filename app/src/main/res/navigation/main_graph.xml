@@ -19,5 +19,15 @@
         android:id="@+id/homeFragment"
         android:name="com.glitch.simplegames.ui.home.HomeFragment"
         android:label="fragment_select_game"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_tictactoeFragment"
+            app:destination="@id/tictactoeFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/tictactoeFragment"
+        android:name="com.glitch.simplegames.ui.tictactoe.TicTacToeFragment"
+        android:label="fragment_tic_tac_toe"
+        tools:layout="@layout/fragment_tictactoe"/>
 </navigation>

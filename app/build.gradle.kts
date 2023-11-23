@@ -70,7 +70,7 @@ dependencies {
     // Lifecycle
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
-    implementation("androidx.activity:activity-ktx:1.8.0")
+    implementation("androidx.activity:activity-ktx:1.8.1")
     //Glide - Lottie
     implementation ("com.github.bumptech.glide:glide:4.16.0")
     implementation ("com.airbnb.android:lottie:6.1.0")
