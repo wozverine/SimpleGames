@@ -20,7 +20,7 @@ class SplashViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            delay(3000)
+            delay(2000)
             checkScore()
         }
     }
