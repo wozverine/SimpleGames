@@ -23,6 +23,9 @@
         <action
             android:id="@+id/action_homeFragment_to_tictactoeFragment"
             app:destination="@id/tictactoeFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_guessTheNumberFragment"
+            app:destination="@id/guessTheNumberFragment" />
     </fragment>
 
     <fragment
@@ -30,4 +33,9 @@
         android:name="com.glitch.simplegames.ui.tictactoe.TicTacToeFragment"
         android:label="fragment_tic_tac_toe"
         tools:layout="@layout/fragment_tictactoe"/>
+    <fragment
+        android:id="@+id/guessTheNumberFragment"
+        android:name="com.glitch.simplegames.ui.guessthenumber.GuessTheNumberFragment"
+        android:label="fragment_guessthenumber"
+        tools:layout="@layout/fragment_guessthenumber" />
 </navigation>
