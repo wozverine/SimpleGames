@@ -31,8 +31,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
 
         with(binding){
-            Database.addGames(1,"tic_tac_toe",0)
-            Database.addGames(1,"guess",0)
+            Database.addGames(1, getString(R.string.tic_tac_toe),0)
+            Database.addGames(2, getString(R.string.guess_the_number),0)
             gameAdapter.updateList(Database.getGames())
             rvGameList.adapter = gameAdapter
 
@@ -53,9 +53,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun onGameClick(id: Int, title: String){
-        if(title=="tic_tac_toe"){
+        if(title==getString(R.string.tic_tac_toe)){
             findNavController().navigate(R.id.action_homeFragment_to_tictactoeFragment)
         }
-        Toast.makeText(requireContext(), title , Toast.LENGTH_SHORT).show()
+        if (title==getString(R.string.guess_the_number)){
+            findNavController().navigate(R.id.action_homeFragment_to_guessTheNumberFragment)
+        }
+        //Toast.makeText(requireContext(), title , Toast.LENGTH_SHORT).show()
     }
 }
