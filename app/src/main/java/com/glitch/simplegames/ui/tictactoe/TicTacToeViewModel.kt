@@ -18,7 +18,7 @@ class TicTacToeViewModel @Inject constructor(
 
     fun playGame() = viewModelScope.launch {
         /*_selectGameState.value = when (val result = scoreRepository.getScores()) {
-            is Resource.Success -> SelectGameState.SuccessState(result.data)
+            is Resource.SaveScore -> SelectGameState.SuccessState(result.data)
             is Resource.Fail -> SelectGameState.EmptyScreen(result.failMessage)
             is Resource.Error -> SelectGameState.ShowMessage(result.errorMessage)
         }*/
