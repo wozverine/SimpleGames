@@ -24,4 +24,10 @@ interface ScoreDao {
 
     @Query("DELETE FROM game_scores")
     suspend fun clearScores()
+
+    @Query("SELECT * FROM game_scores WHERE gameId = :gameId LIMIT 1")
+    suspend fun getScoreForGame(gameId: Int): ScoreEntity?
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertDefaultScore(scoreEntity: ScoreEntity)
 }

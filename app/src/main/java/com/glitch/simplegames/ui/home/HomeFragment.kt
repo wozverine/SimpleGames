@@ -5,14 +5,17 @@ import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.glitch.simplegames.R
 import com.glitch.simplegames.common.viewBinding
 import com.glitch.simplegames.data.model.response.Game
+import com.glitch.simplegames.data.model.response.ScoreEntity
 import com.glitch.simplegames.data.source.local.Database
 import com.glitch.simplegames.databinding.FragmentHomeBinding
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home) {
@@ -28,16 +31,25 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.selectGame()
 
+        viewLifecycleOwner.lifecycleScope.launch {
+            with(binding) {
 
+                Database.addGames(1, getString(R.string.tic_tac_toe), 0)
+                val ticTacToeScoreEntity = ScoreEntity(1, null, 0)
+                viewModel.insertDefaultScoreIfNeeded(ticTacToeScoreEntity)
 
-        with(binding){
-            Database.addGames(1, getString(R.string.tic_tac_toe),0)
-            Database.addGames(2, getString(R.string.guess_the_number),0)
-            gameAdapter.updateList(Database.getGames())
-            rvGameList.adapter = gameAdapter
+                // Add a default score for Guess the Number
+                Database.addGames(2, getString(R.string.guess_the_number), 0)
+                val guessTheNumberScoreEntity = ScoreEntity(2, null, 0)
+                viewModel.insertDefaultScoreIfNeeded(guessTheNumberScoreEntity)
+                /*Database.addGames(1, getString(R.string.tic_tac_toe),0)
+                Database.addGames(2, getString(R.string.guess_the_number),0)*/
+                gameAdapter.updateList(Database.getGames())
+                rvGameList.adapter = gameAdapter
 
+            }
+            goToGame()
         }
-        goToGame()
     }
 
     private fun goToGame() = with(binding) {

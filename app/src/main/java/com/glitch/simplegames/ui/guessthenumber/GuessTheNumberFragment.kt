@@ -1,6 +1,7 @@
 package com.glitch.simplegames.ui.guessthenumber
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -23,33 +24,46 @@ class GuessTheNumberFragment : Fragment(R.layout.fragment_guessthenumber) {
         viewModel.openPage()
         gamePlay()
         with(binding) {
-            btnStartGame.setOnClickListener(){
+            btnStartGame.setOnClickListener {
                 viewModel.startGame()
-                gamePlay()
+                Snackbar.make(requireView(), getString(R.string.guess_the_number), 1000).show()
             }
         }
     }
 
     private fun gamePlay() = with(binding) {
+        Log.d("Fragment", "fun gamePlay")
         viewModel.playGuessTheNumberState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 GuessTheNumberViewModel.PlayGuessTheNumberState.Loading -> {
-                    tvNumberActual.gone()
-                    tilNumber.gone()
-                    tietNumber.gone()
-                    progressBar.visible()
-                }
+                    Log.d("Fragment", "Loading State: $state")
+                    Log.d("Fragment", "A: Loading")
 
-                is GuessTheNumberViewModel.PlayGuessTheNumberState.SaveState -> {
-                    progressBar.gone()
-                    //productAdapter.submitList(state.products)
-                }
-
-                is GuessTheNumberViewModel.PlayGuessTheNumberState.EmptyScreen -> {
                     tvNumberActual.gone()
                     tilNumber.gone()
                     tietNumber.gone()
                     btnStartGame.gone()
+
+                    progressBar.visible()
+                    tvEmpty.gone()
+                    ivEmpty.gone()
+                }
+
+                is GuessTheNumberViewModel.PlayGuessTheNumberState.SaveState -> {
+                    Log.d("Fragment", "Save State: ${state.scores}")
+                    Log.d("Fragment", "A: SaveState")
+                    progressBar.gone()
+                    //TODO
+                }
+
+                is GuessTheNumberViewModel.PlayGuessTheNumberState.EmptyScreen -> {
+                    Log.d("Fragment", "Empty Screen State: ${state.failMessage}")
+                    Log.d("Fragment", "A: EmptyScreen")
+                    tvNumberActual.gone()
+                    tilNumber.gone()
+                    tietNumber.gone()
+                    btnStartGame.gone()
+                    btnSubmit.gone()
 
                     progressBar.gone()
                     tvEmpty.text = state.failMessage
@@ -58,6 +72,9 @@ class GuessTheNumberFragment : Fragment(R.layout.fragment_guessthenumber) {
                 }
 
                 is GuessTheNumberViewModel.PlayGuessTheNumberState.ShowMessage -> {
+                    Log.d("Fragment", "Show Message State: ${state.errorMessage}")
+                    Log.d("Fragment", "A: ShowMessage")
+                    btnSubmit.gone()
                     tvNumberActual.gone()
                     tilNumber.gone()
                     tietNumber.gone()
@@ -68,19 +85,40 @@ class GuessTheNumberFragment : Fragment(R.layout.fragment_guessthenumber) {
                 }
 
                 is GuessTheNumberViewModel.PlayGuessTheNumberState.GamingState -> {
+                    Log.d("Fragment", "Gaming State: ${state.gaming}")
+                    Log.d("Fragment", "A: GamingState")
+                    btnSubmit.visible()
                     tvNumberActual.visible()
                     tilNumber.visible()
                     tietNumber.visible()
                     btnStartGame.gone()
 
                     progressBar.gone()
+                    tvEmpty.gone()
+                    ivEmpty.gone()
                 }
 
                 is GuessTheNumberViewModel.PlayGuessTheNumberState.IsWonScreen -> {
+                    Log.d("Fragment", "IsWon State: ${state.won}")
+                    Log.d("Fragment", "A: IsWonScreen")
                     //findNavController().navigate(R.id.action_homeFragment_to_signInFragment)
                     progressBar.gone()
+                    //TODO
                 }
 
+                is GuessTheNumberViewModel.PlayGuessTheNumberState.WaitingState -> {
+                    Log.d("Fragment", "Waiting State: ${state.waiting}")
+                    Log.d("Fragment", "A: WaitingState")
+                    btnStartGame.visible()
+                    tvNumberActual.visible()
+                    tilNumber.gone()
+                    tietNumber.gone()
+                    btnSubmit.gone()
+
+                    progressBar.gone()
+                    tvEmpty.gone()
+                    ivEmpty.gone()
+                }
             }
         }
     }

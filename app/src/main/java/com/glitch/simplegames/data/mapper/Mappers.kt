@@ -1,4 +1,4 @@
-package com.glitch.cybernexus.data.mapper
+package com.glitch.simplegames.data.mapper
 
 import com.glitch.simplegames.data.model.response.Score
 import com.glitch.simplegames.data.model.response.ScoreEntity
