@@ -43,6 +43,7 @@ class GuessTheNumberFragment : Fragment(R.layout.fragment_guessthenumber) {
                     tilNumber.gone()
                     tietNumber.gone()
                     btnStartGame.gone()
+                    tvHintText.gone()
 
                     progressBar.visible()
                     tvEmpty.gone()
@@ -64,6 +65,7 @@ class GuessTheNumberFragment : Fragment(R.layout.fragment_guessthenumber) {
                     tietNumber.gone()
                     btnStartGame.gone()
                     btnSubmit.gone()
+                    tvHintText.gone()
 
                     progressBar.gone()
                     tvEmpty.text = state.failMessage
@@ -79,6 +81,7 @@ class GuessTheNumberFragment : Fragment(R.layout.fragment_guessthenumber) {
                     tilNumber.gone()
                     tietNumber.gone()
                     btnStartGame.gone()
+                    tvHintText.gone()
 
                     progressBar.gone()
                     Snackbar.make(requireView(), state.errorMessage, 1000).show()
@@ -91,6 +94,7 @@ class GuessTheNumberFragment : Fragment(R.layout.fragment_guessthenumber) {
                     tvNumberActual.visible()
                     tilNumber.visible()
                     tietNumber.visible()
+                    tvHintText.visible()
                     btnStartGame.gone()
 
                     progressBar.gone()
@@ -114,6 +118,7 @@ class GuessTheNumberFragment : Fragment(R.layout.fragment_guessthenumber) {
                     tilNumber.gone()
                     tietNumber.gone()
                     btnSubmit.gone()
+                    tvHintText.gone()
 
                     progressBar.gone()
                     tvEmpty.gone()

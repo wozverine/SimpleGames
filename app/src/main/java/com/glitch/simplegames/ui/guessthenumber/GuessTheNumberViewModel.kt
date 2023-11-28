@@ -41,8 +41,10 @@ class GuessTheNumberViewModel @Inject constructor(
 
 	fun startGame() = viewModelScope.launch {
 		_playGuessTheNumberState.value = PlayGuessTheNumberState.Loading
+
+		val secretNumber = generateSecretNumber()
 		try {
-			_playGuessTheNumberState.value = PlayGuessTheNumberState.GamingState(true)
+			_playGuessTheNumberState.value = PlayGuessTheNumberState.GamingState(true, secretNumber)
 		} catch (e: Exception) {
 			Log.d("ViewModel", "Exception in startGame(): ${e.message}")
 			_playGuessTheNumberState.value =
@@ -104,9 +106,13 @@ class GuessTheNumberViewModel @Inject constructor(
 
 	}*/
 
+	private fun generateSecretNumber(): Int {
+		return (1..99).random()
+	}
+
 	sealed interface PlayGuessTheNumberState {
 		object Loading : PlayGuessTheNumberState
-		data class GamingState(val gaming: Boolean) : PlayGuessTheNumberState
+		data class GamingState(val gaming: Boolean, val secretNumber: Int) : PlayGuessTheNumberState
 		data class WaitingState(val waiting: Boolean) : PlayGuessTheNumberState
 		data class IsWonScreen(val won: Boolean) : PlayGuessTheNumberState
 		data class ShowMessage(val errorMessage: String) : PlayGuessTheNumberState

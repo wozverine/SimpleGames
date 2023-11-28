@@ -10,24 +10,24 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class ScoreRepository(
-    private val scoreDao: ScoreDao
+	private val scoreDao: ScoreDao
 ) {
-    suspend fun getScores(): Resource<List<ScoreUI>> = withContext(Dispatchers.IO) {
-        try {
-            val games = scoreDao.getScore()
-            Resource.SaveScore(games.mapScoreEntityToScoreUI())
-        } catch (e: Exception) {
-            Resource.Error(e.message.orEmpty())
-        }
-    }
+	suspend fun getScores(): Resource<List<ScoreUI>> = withContext(Dispatchers.IO) {
+		try {
+			val games = scoreDao.getScore()
+			Resource.SaveScore(games.mapScoreEntityToScoreUI())
+		} catch (e: Exception) {
+			Resource.Error(e.message.orEmpty())
+		}
+	}
 
-    suspend fun getScoreForGame(gameId: Int): ScoreEntity? {
-        return scoreDao.getScoreForGame(gameId)
-    }
+	suspend fun getScoreForGame(gameId: Int): ScoreEntity? {
+		return scoreDao.getScoreForGame(gameId)
+	}
 
-    suspend fun insertDefaultScore(scoreEntity: ScoreEntity) {
-        scoreDao.insertDefaultScore(scoreEntity)
-    }
+	suspend fun insertDefaultScore(scoreEntity: ScoreEntity) {
+		scoreDao.insertDefaultScore(scoreEntity)
+	}
 
 
 }

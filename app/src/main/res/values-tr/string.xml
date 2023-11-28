@@ -10,4 +10,7 @@
     <string name="start_game">Oyuna Başla</string>
     <string name="guess">Tahmin Et</string>
     <string name="question_mark">\??</string>
+    <string name="too_low">Çok Düşük</string>
+    <string name="too_high">Çok Yüksek</string>
+    <string name="congrats">Tebrikler!</string>
 </resources>

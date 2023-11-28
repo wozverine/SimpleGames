@@ -9,4 +9,7 @@
     <string name="start_game">Start Game</string>
     <string name="guess">Guess The Number</string>
     <string name="question_mark">\??</string>
+    <string name="too_low">Too Low</string>
+    <string name="too_high">Too High</string>
+    <string name="congrats">Congratulations!</string>
 </resources>
