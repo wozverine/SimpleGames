@@ -3,6 +3,7 @@ package com.glitch.simplegames.ui.guessthenumber
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.glitch.simplegames.R
@@ -19,6 +20,8 @@ class GuessTheNumberFragment : Fragment(R.layout.fragment_guessthenumber) {
 
     private val viewModel by viewModels<GuessTheNumberViewModel>()
 
+    private var secretNumber = 0
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.openPage()
@@ -27,6 +30,14 @@ class GuessTheNumberFragment : Fragment(R.layout.fragment_guessthenumber) {
             btnStartGame.setOnClickListener {
                 viewModel.startGame()
                 Snackbar.make(requireView(), getString(R.string.guess_the_number), 1000).show()
+                tvNumberActual.text = secretNumber.toString()
+            }
+
+            btnSubmit.setOnClickListener{
+                if (secretNumber.toString() == tietNumber.text.toString()){
+                    Log.d("Fragment","Congrats")
+                    tvHintText.text = getString(R.string.congrats)
+                }
             }
         }
     }
@@ -100,6 +111,8 @@ class GuessTheNumberFragment : Fragment(R.layout.fragment_guessthenumber) {
                     progressBar.gone()
                     tvEmpty.gone()
                     ivEmpty.gone()
+
+                    secretNumber = state.secretNumber
                 }
 
                 is GuessTheNumberViewModel.PlayGuessTheNumberState.IsWonScreen -> {
