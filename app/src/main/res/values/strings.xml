@@ -12,4 +12,6 @@
     <string name="too_low">Too Low</string>
     <string name="too_high">Too High</string>
     <string name="congrats">Congratulations!</string>
+    <string name="guess_left">Number of guesses left: </string>
+    <string name="play_again">Play Again</string>
 </resources>

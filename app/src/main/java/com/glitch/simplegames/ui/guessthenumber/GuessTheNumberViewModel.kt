@@ -93,18 +93,18 @@ class GuessTheNumberViewModel @Inject constructor(
 		}
 	}*/
 
-	/*fun wonGame() = viewModelScope.launch {
+	fun wonGame() = viewModelScope.launch {
 		_playGuessTheNumberState.value = PlayGuessTheNumberState.Loading
 
-		_playGuessTheNumberState.value = when (val result = scoreRepository.getScores()) {
-			is Resource.GamingState -> PlayGuessTheNumberState.GamingState(true)
-			is Resource.IsWonScreen -> PlayGuessTheNumberState.IsWonScreen(true)
-			is Resource.Error -> PlayGuessTheNumberState.ShowMessage(result.errorMessage)
-			is Resource.Fail -> PlayGuessTheNumberState.EmptyScreen(result.failMessage)
-			is Resource.SaveScore -> PlayGuessTheNumberState.SaveState(result.data)
+		try {
+			_playGuessTheNumberState.value = PlayGuessTheNumberState.IsWonScreen(10)
+		} catch (e: Exception) {
+			Log.d("ViewModel", "Exception in startGame(): ${e.message}")
+			_playGuessTheNumberState.value =
+				PlayGuessTheNumberState.EmptyScreen("An error occurred")
 		}
 
-	}*/
+	}
 
 	private fun generateSecretNumber(): Int {
 		return (1..99).random()
@@ -114,7 +114,7 @@ class GuessTheNumberViewModel @Inject constructor(
 		object Loading : PlayGuessTheNumberState
 		data class GamingState(val gaming: Boolean, val secretNumber: Int) : PlayGuessTheNumberState
 		data class WaitingState(val waiting: Boolean) : PlayGuessTheNumberState
-		data class IsWonScreen(val won: Boolean) : PlayGuessTheNumberState
+		data class IsWonScreen(val guessLeft: Int) : PlayGuessTheNumberState
 		data class ShowMessage(val errorMessage: String) : PlayGuessTheNumberState
 		data class SaveState(val scores: List<ScoreUI>) : PlayGuessTheNumberState
 		data class EmptyScreen(val failMessage: String) : PlayGuessTheNumberState

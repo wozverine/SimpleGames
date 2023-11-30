@@ -13,4 +13,6 @@
     <string name="too_low">Çok Düşük</string>
     <string name="too_high">Çok Yüksek</string>
     <string name="congrats">Tebrikler!</string>
+    <string name="guess_left">Kalan tahmin sayısı: </string>
+    <string name="play_again">Tekrar Oyna</string>
 </resources>
