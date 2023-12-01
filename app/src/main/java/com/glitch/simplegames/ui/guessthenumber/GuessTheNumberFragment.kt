@@ -30,22 +30,16 @@ class GuessTheNumberFragment : Fragment(R.layout.fragment_guessthenumber) {
 		with(binding) {
 			btnStartGame.setOnClickListener {
 				viewModel.startGame()
-				//Snackbar.make(requireView(), getString(R.string.guess_the_number), 1000).show()
-				tvNumberActual.text = secretNumber.toString()
-				val txt = buildString {
+				//tvNumberActual.text = secretNumber.toString()
+				tvGuessLeft.text = buildString {
 					append(getString(R.string.guess_left))
 					append(guessCount)
 				}
-				tvGuessLeft.text = txt
 			}
 
 			btnSubmit.setOnClickListener {
 				guessCount -= 1
-				val txt = buildString {
-					append(getString(R.string.guess_left))
-					append(guessCount)
-				}
-				tvGuessLeft.text = txt
+
 				tvHintText.text = when {
 					tietNumber.text.toString()
 						.toInt() == secretNumber -> getString(R.string.congrats)
@@ -60,11 +54,30 @@ class GuessTheNumberFragment : Fragment(R.layout.fragment_guessthenumber) {
 				}
 
 				if (secretNumber.toString() == tietNumber.text.toString()) {
+					guessCount += 1
 					viewModel.wonGame()
-					btnSubmit.text = "Start again"
-					viewModel.startGame()
-					tvNumberActual.text = secretNumber.toString()
+					//btnSubmit.text = "Start again"
 				}
+
+				val txt = buildString {
+					append(getString(R.string.guess_left))
+					append(guessCount)
+				}
+				tvGuessLeft.text = txt
+				tietNumber.text = null
+			}
+
+			btnPlayAgain.setOnClickListener {
+				guessCount = 10
+				viewModel.startGame()
+				tvHintText.text = getString(R.string.guess_the_number)
+				//tvNumberActual.text = secretNumber.toString()
+
+				val txt = buildString {
+					append(getString(R.string.guess_left))
+					append(guessCount)
+				}
+				tvGuessLeft.text = txt
 			}
 		}
 	}
@@ -95,6 +108,7 @@ class GuessTheNumberFragment : Fragment(R.layout.fragment_guessthenumber) {
 					Log.d("Fragment", "Gaming State: ${state.gaming}")
 					Log.d("Fragment", "A: GamingState")
 					playLayout.visible()
+					tilNumber.visible()
 					btnSubmit.visible()
 					btnPlayAgain.gone()
 					btnStartGame.gone()
@@ -110,11 +124,11 @@ class GuessTheNumberFragment : Fragment(R.layout.fragment_guessthenumber) {
 					Log.d("Fragment", "IsWon State: ${state.guessLeft}")
 					Log.d("Fragment", "A: IsWonScreen")
 					//findNavController().navigate(R.id.action_homeFragment_to_signInFragment)
-					guessCount = state.guessLeft
+					//guessCount = state.guessLeft
 
 					playLayout.visible()
+					tilNumber.gone()
 					btnSubmit.gone()
-					tvGuessLeft.gone()
 					btnStartGame.gone()
 					btnPlayAgain.visible()
 
@@ -126,10 +140,10 @@ class GuessTheNumberFragment : Fragment(R.layout.fragment_guessthenumber) {
 				is GuessTheNumberViewModel.PlayGuessTheNumberState.WaitingState -> {
 					Log.d("Fragment", "Waiting State: ${state.waiting}")
 					Log.d("Fragment", "A: WaitingState")
+					playLayout.gone()
 					btnStartGame.visible()
 					btnSubmit.gone()
 					btnPlayAgain.gone()
-					playLayout.gone()
 
 					progressBar.gone()
 					tvEmpty.gone()
