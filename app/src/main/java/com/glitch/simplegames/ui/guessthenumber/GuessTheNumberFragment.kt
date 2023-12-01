@@ -30,7 +30,7 @@ class GuessTheNumberFragment : Fragment(R.layout.fragment_guessthenumber) {
 		with(binding) {
 			btnStartGame.setOnClickListener {
 				viewModel.startGame()
-				//tvNumberActual.text = secretNumber.toString()
+				tvNumberActual.text = getString(R.string.question_mark)
 				tvGuessLeft.text = buildString {
 					append(getString(R.string.guess_left))
 					append(guessCount)
@@ -56,7 +56,7 @@ class GuessTheNumberFragment : Fragment(R.layout.fragment_guessthenumber) {
 				if (secretNumber.toString() == tietNumber.text.toString()) {
 					guessCount += 1
 					viewModel.wonGame()
-					//btnSubmit.text = "Start again"
+					tvNumberActual.text = secretNumber.toString()
 				}
 
 				val txt = buildString {
@@ -78,6 +78,7 @@ class GuessTheNumberFragment : Fragment(R.layout.fragment_guessthenumber) {
 					append(guessCount)
 				}
 				tvGuessLeft.text = txt
+				tvNumberActual.text = getString(R.string.question_mark)
 			}
 		}
 	}
