@@ -9,7 +9,7 @@
         android:id="@+id/splashFragment"
         android:name="com.glitch.simplegames.ui.splash.SplashFragment"
         android:label="fragment_splash"
-        tools:layout="@layout/fragment_splash" >
+        tools:layout="@layout/fragment_splash">
         <action
             android:id="@+id/action_splashFragment_to_selectGameFragment"
             app:destination="@id/homeFragment" />
@@ -19,23 +19,33 @@
         android:id="@+id/homeFragment"
         android:name="com.glitch.simplegames.ui.home.HomeFragment"
         android:label="fragment_select_game"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_tictactoeFragment"
             app:destination="@id/tictactoeFragment" />
         <action
             android:id="@+id/action_homeFragment_to_guessTheNumberFragment"
             app:destination="@id/guessTheNumberFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="false" />
     </fragment>
 
     <fragment
         android:id="@+id/tictactoeFragment"
         android:name="com.glitch.simplegames.ui.tictactoe.TicTacToeFragment"
         android:label="fragment_tic_tac_toe"
-        tools:layout="@layout/fragment_tictactoe"/>
+        tools:layout="@layout/fragment_tictactoe" />
     <fragment
         android:id="@+id/guessTheNumberFragment"
         android:name="com.glitch.simplegames.ui.guessthenumber.GuessTheNumberFragment"
         android:label="fragment_guessthenumber"
-        tools:layout="@layout/fragment_guessthenumber" />
+        tools:layout="@layout/fragment_guess" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.glitch.simplegames.ui.settings.SettingsFragment"
+        android:label="SettingsFragment"
+        tools:layout="@layout/fragment_settings"/>
 </navigation>

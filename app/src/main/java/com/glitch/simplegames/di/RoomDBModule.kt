@@ -2,7 +2,7 @@ package com.glitch.simplegames.di
 
 import android.content.Context
 import androidx.room.Room
-import com.glitch.simplegames.data.source.local.ScoreRoomDB
+import com.glitch.simplegames.data.source.local.GameRoomDB
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,12 +14,12 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object RoomDBModule {
 
-    @Singleton
-    @Provides
-    fun provideScoreRoomDB(@ApplicationContext context: Context) =
-        Room.databaseBuilder(context, ScoreRoomDB::class.java, "game_scores").build()
+	@Singleton
+	@Provides
+	fun provideScoreRoomDB(@ApplicationContext context: Context) =
+		Room.databaseBuilder(context, GameRoomDB::class.java, "games_database").build()
 
-    @Singleton
-    @Provides
-    fun provideScoreDao(roomDB: ScoreRoomDB) = roomDB.scoreDao()
+	@Singleton
+	@Provides
+	fun provideScoreDao(roomDB: GameRoomDB) = roomDB.gameDao()
 }

@@ -1,8 +1,8 @@
 package com.glitch.simplegames.data.model.response
 
-data class Game(
+data class GameUI(
 	val gameId: Int,
 	val title: String,
 	val username: String,
-	val highScore: Int
+	val highScore: Int = 0
 )

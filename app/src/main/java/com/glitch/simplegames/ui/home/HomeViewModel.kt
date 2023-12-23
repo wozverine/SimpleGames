@@ -5,9 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.glitch.simplegames.common.Resource
-import com.glitch.simplegames.data.model.response.ScoreEntity
-import com.glitch.simplegames.data.model.response.ScoreUI
-import com.glitch.simplegames.data.repository.ScoreRepository
+import com.glitch.simplegames.data.model.response.GameEntity
+import com.glitch.simplegames.data.model.response.GameUI
+import com.glitch.simplegames.data.repository.GameRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -15,33 +15,37 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val scoreRepository: ScoreRepository
+	private val gameRepository: GameRepository
 ) : ViewModel() {
 
-    private var _selectGameState = MutableLiveData<SelectGameState>()
-    val selectGameState: LiveData<SelectGameState> get() = _selectGameState
+	private var _selectGameState = MutableLiveData<SelectGameState>()
+	val selectGameState: LiveData<SelectGameState> get() = _selectGameState
 
-    fun selectGame() = viewModelScope.launch {
-        /*_selectGameState.value = when (val result = scoreRepository.getScores()) {
-            is Resource.SaveScore -> SelectGameState.SuccessState(result.data)
-            is Resource.Fail -> SelectGameState.EmptyScreen(result.failMessage)
-            is Resource.Error -> SelectGameState.ShowMessage(result.errorMessage)
-        }*/
-    }
+	fun getGames() = viewModelScope.launch {
+		_selectGameState.value = SelectGameState.Loading
 
+		_selectGameState.value = when (val result = gameRepository.getGames()) {
+			is Resource.Success -> SelectGameState.SuccessState(result.data)
+			is Resource.Fail -> SelectGameState.EmptyScreen(result.failMessage)
+			is Resource.Error -> SelectGameState.ShowMessage(result.errorMessage)
+		}
+	}
 
-    sealed interface SelectGameState {
-        object GoToGame : SelectGameState
-        /*data class SuccessState(val products: List<ScoreUI>) : SelectGameState
-        data class EmptyScreen(val failMessage: String) : SelectGameState
-        data class ShowMessage(val errorMessage: String) : SelectGameState*/
-    }
+	suspend fun getHighscore(gameId: Int): Int? {
+		return gameRepository.getHighscoreForGame(gameId) ?: 0
+	}
 
-    suspend fun insertDefaultScoreIfNeeded(scoreEntity: ScoreEntity) {
-        val existingScore = scoreRepository.getScoreForGame(scoreEntity.gameId ?: 0)
-        if (existingScore == null) {
-            // Score doesn't exist, insert the default score
-            scoreRepository.insertDefaultScore(scoreEntity)
-        }
-    }
+	suspend fun updateScore(gameEntity: GameEntity) {
+		gameRepository.updateScores(gameEntity)
+	}
+	suspend fun addGame(gameEntity: GameEntity) {
+		gameRepository.addGame(gameEntity)
+	}
+
+}
+sealed interface SelectGameState {
+	object Loading : SelectGameState
+	data class SuccessState(val games: List<GameUI>) : SelectGameState
+	data class EmptyScreen(val failMessage: String) : SelectGameState
+	data class ShowMessage(val errorMessage: String) : SelectGameState
 }

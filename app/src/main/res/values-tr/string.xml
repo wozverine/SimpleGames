@@ -6,6 +6,7 @@
     <string name="choose_game">Ne oynamak istersiniz?</string>
     <string name="game_name">Oyun İsmi</string>
     <string name="high_score">Yüksek Skor</string>
+    <string name="score">Skor: </string>
     <string name="hundred">100</string>
     <string name="start_game">Oyuna Başla</string>
     <string name="guess">Tahmin Et</string>
@@ -15,4 +16,7 @@
     <string name="congrats">Tebrikler!</string>
     <string name="guess_left">Kalan tahmin sayısı: </string>
     <string name="play_again">Tekrar Oyna</string>
+    <string name="empty">Boş</string>
+    <string name="reset">Skorları Sıfırla</string>
+    <string name="settings">Ayarlar</string>
 </resources>

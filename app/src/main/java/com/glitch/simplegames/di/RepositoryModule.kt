@@ -1,7 +1,7 @@
 package com.glitch.simplegames.di
 
-import com.glitch.simplegames.data.repository.ScoreRepository
-import com.glitch.simplegames.data.source.local.ScoreDao
+import com.glitch.simplegames.data.repository.GameRepository
+import com.glitch.simplegames.data.source.local.GameDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,6 +14,6 @@ object RepositoryModule {
 	@Provides
 	@Singleton
 	fun provideScoreRepository(
-		scoreDao: ScoreDao
-	) = ScoreRepository(scoreDao)
+		gameDao: GameDao
+	) = GameRepository(gameDao)
 }

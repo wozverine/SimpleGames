@@ -2,48 +2,50 @@ package com.glitch.simplegames.ui.home
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.glitch.simplegames.data.model.response.Game
+import com.glitch.simplegames.data.model.response.GameUI
 import com.glitch.simplegames.databinding.ItemGameRvBinding
 
 class GameAdapter(
-    private val onGameClick: (Int, String) -> Unit
-) : RecyclerView.Adapter<GameAdapter.GameViewHolder>() {
+	private val onGameClick: (Int) -> Unit
+) : ListAdapter<GameUI, GameAdapter.GameViewHolder>(ScoreDiffUtilCallBack()) {
 
-    private val gameList = mutableListOf<Game>()
+	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GameViewHolder {
+		return GameViewHolder(
+			ItemGameRvBinding.inflate(LayoutInflater.from(parent.context), parent, false),
+			onGameClick
+		)
+	}
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GameAdapter.GameViewHolder {
-        val binding = ItemGameRvBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return GameViewHolder(binding, onGameClick)
-    }
+	override fun onBindViewHolder(holder: GameViewHolder, position: Int) {
+		holder.bind(getItem(position))
+	}
 
-    override fun onBindViewHolder(holder: GameAdapter.GameViewHolder, position: Int) {
-        holder.bind(gameList[position])
-    }
+	class GameViewHolder(
+		private val binding: ItemGameRvBinding,
+		val onGameClick: (Int) -> Unit
+	) : RecyclerView.ViewHolder(binding.root) {
+		fun bind(gameUI: GameUI) {
+			with(binding) {
+				tvHighScore.text = gameUI.highScore.toString()
+				btnGame.text = gameUI.title
 
-    override fun getItemCount(): Int {
-        return gameList.size
-    }
+				btnGame.setOnClickListener {
+					onGameClick(gameUI.gameId)
+				}
+			}
+		}
+	}
 
-    class GameViewHolder(
-        private val binding: ItemGameRvBinding,
-        val onGameClick: (Int, String) -> Unit
-    ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(game: Game) {
-            with(binding) {
-                tvHighScore.text = game.score.toString()
-                btnGame.text = game.title
+	class ScoreDiffUtilCallBack : DiffUtil.ItemCallback<GameUI>() {
+		override fun areItemsTheSame(oldItem: GameUI, newItem: GameUI): Boolean {
+			return oldItem.gameId == newItem.gameId
+		}
 
-                btnGame.setOnClickListener {
-                    onGameClick(game.id, game.title)
-                }
-            }
-        }
-    }
-
-    fun updateList(list: List<Game>) {
-        gameList.clear()
-        gameList.addAll(list)
-        notifyItemRangeChanged(0, list.size)
-    }
+		override fun areContentsTheSame(oldItem: GameUI, newItem: GameUI): Boolean {
+			return oldItem == newItem
+		}
+	}
 }

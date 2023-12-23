@@ -1,76 +1,108 @@
 package com.glitch.simplegames.ui.home
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.glitch.simplegames.R
+import com.glitch.simplegames.common.gone
 import com.glitch.simplegames.common.viewBinding
-import com.glitch.simplegames.data.model.response.Game
-import com.glitch.simplegames.data.model.response.ScoreEntity
-import com.glitch.simplegames.data.source.local.Database
+import com.glitch.simplegames.common.visible
+import com.glitch.simplegames.data.model.response.GameEntity
 import com.glitch.simplegames.databinding.FragmentHomeBinding
-import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home) {
 
-    private val binding by viewBinding(FragmentHomeBinding::bind)
-    private val viewModel by viewModels<HomeViewModel>()
+	private val binding by viewBinding(FragmentHomeBinding::bind)
+	private val viewModel by viewModels<HomeViewModel>()
+	private lateinit var sharedPref: SharedPreferences
 
-    private val gameAdapter = GameAdapter(
-        onGameClick = ::onGameClick
-    )
+	private val gameAdapter = GameAdapter(
+		onGameClick = ::onGameClick
+	)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        viewModel.selectGame()
+	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+		super.onViewCreated(view, savedInstanceState)
+		sharedPref = requireActivity().getSharedPreferences("AppSettings", Context.MODE_PRIVATE)
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            with(binding) {
+		/*val currentVersionCode = BuildConfig.VERSION_CODE
+		val storedVersionCode = sharedPref.getInt("versionCode", -1)
 
-                Database.addGames(1, getString(R.string.tic_tac_toe), 0)
-                val ticTacToeScoreEntity = ScoreEntity(1, null, 0)
-                viewModel.insertDefaultScoreIfNeeded(ticTacToeScoreEntity)
+		if (currentVersionCode > storedVersionCode) {
+			// Execute setup code (e.g., add new games)
 
-                // Add a default score for Guess the Number
-                Database.addGames(2, getString(R.string.guess_the_number), 0)
-                val guessTheNumberScoreEntity = ScoreEntity(2, null, 0)
-                viewModel.insertDefaultScoreIfNeeded(guessTheNumberScoreEntity)
-                /*Database.addGames(1, getString(R.string.tic_tac_toe),0)
-                Database.addGames(2, getString(R.string.guess_the_number),0)*/
-                gameAdapter.updateList(Database.getGames())
-                rvGameList.adapter = gameAdapter
+			// Update stored version code
+			sharedPref.edit().putInt("versionCode", currentVersionCode).apply()
+		}*/
 
-            }
-            goToGame()
-        }
-    }
 
-    private fun goToGame() = with(binding) {
-        viewModel.selectGameState.observe(viewLifecycleOwner) { state ->
-            when (state) {
-                HomeViewModel.SelectGameState.GoToGame -> {
-                    //findNavController()
-                }
+		if (sharedPref.getBoolean("firstTime", true)) {
+			val ticTacToeScoreEntity =
+				GameEntity(
+					gameId = 0,
+					title = getString(R.string.tic_tac_toe),
+					username = "q",
+					highScore = 0
+				)
+			val guessTheNumberScoreEntity =
+				GameEntity(
+					gameId = 1,
+					title = getString(R.string.guess_the_number),
+					username = "q",
+					highScore = 0
+				)
+			viewLifecycleOwner.lifecycleScope.launch {
+				viewModel.addGame(ticTacToeScoreEntity)
+				viewModel.addGame(guessTheNumberScoreEntity)
+				sharedPref.edit().putBoolean("firstTime", false).apply()
+				viewModel.getGames()
+			}
+		} else {
+			viewModel.getGames()
+		}
 
-                else -> {}
-            }
-        }
-    }
+		goToGame()
+		with(binding) {
+			rvGameList.adapter = gameAdapter
+			btnSettings.setOnClickListener {
+				findNavController().navigate(R.id.action_homeFragment_to_settingsFragment)
+			}
+		}
+	}
 
-    private fun onGameClick(id: Int, title: String){
-        if(title==getString(R.string.tic_tac_toe)){
-            findNavController().navigate(R.id.action_homeFragment_to_tictactoeFragment)
-        }
-        if (title==getString(R.string.guess_the_number)){
-            findNavController().navigate(R.id.action_homeFragment_to_guessTheNumberFragment)
-        }
-        //Toast.makeText(requireContext(), title , Toast.LENGTH_SHORT).show()
-    }
+	private fun goToGame() = with(binding) {
+		viewModel.selectGameState.observe(viewLifecycleOwner) { state ->
+			when (state) {
+				SelectGameState.Loading -> {
+					rvGameList.gone()
+				}
+
+				is SelectGameState.SuccessState -> {
+					gameAdapter.submitList(state.games)
+					rvGameList.visible()
+				}
+
+				else -> {
+					tvChooseGame.gone()
+					rvGameList.gone()
+				}
+			}
+		}
+	}
+
+	private fun onGameClick(id: Int) {
+		if (id == 0) {
+			findNavController().navigate(R.id.action_homeFragment_to_tictactoeFragment)
+		}
+		if (id == 1) {
+			findNavController().navigate(R.id.action_homeFragment_to_guessTheNumberFragment)
+		}
+	}
 }

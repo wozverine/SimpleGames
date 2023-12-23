@@ -3,28 +3,39 @@ package com.glitch.simplegames.ui.guessthenumber
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.core.view.get
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.glitch.simplegames.R
 import com.glitch.simplegames.common.gone
 import com.glitch.simplegames.common.viewBinding
 import com.glitch.simplegames.common.visible
-import com.glitch.simplegames.databinding.FragmentGuessthenumberBinding
+import com.glitch.simplegames.data.model.response.GameEntity
+import com.glitch.simplegames.data.repository.GameRepository
+import com.glitch.simplegames.data.source.local.GameRoomDB
+import com.glitch.simplegames.databinding.FragmentGuessBinding
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class GuessTheNumberFragment : Fragment(R.layout.fragment_guessthenumber) {
-	private val binding by viewBinding(FragmentGuessthenumberBinding::bind)
+class GuessTheNumberFragment : Fragment(R.layout.fragment_guess) {
+	private val binding by viewBinding(FragmentGuessBinding::bind)
 
 	private val viewModel by viewModels<GuessTheNumberViewModel>()
+
+	private lateinit var gameRepository: GameRepository
 
 	private var secretNumber = 0
 	private var guessCount = 10
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
+
+		val gameDao = GameRoomDB.getInstance(requireContext()).gameDao()
+		gameRepository = GameRepository(gameDao)
+
 		viewModel.openPage()
 		gamePlay()
 		with(binding) {
@@ -38,39 +49,62 @@ class GuessTheNumberFragment : Fragment(R.layout.fragment_guessthenumber) {
 			}
 
 			btnSubmit.setOnClickListener {
-				guessCount -= 1
+				if (tietNumber.text?.isNotEmpty() == true) {
+					guessCount -= 1
 
-				tvHintText.text = when {
-					tietNumber.text.toString()
-						.toInt() == secretNumber -> getString(R.string.congrats)
+					tvHint.text = when {
+						tietNumber.text.toString()
+							.toInt() == secretNumber -> getString(R.string.congrats)
 
-					secretNumber > tietNumber.text.toString().toInt() -> getString(R.string.too_low)
-					secretNumber < tietNumber.text.toString()
-						.toInt() -> getString(R.string.too_high)
+						secretNumber > tietNumber.text.toString()
+							.toInt() -> getString(R.string.too_low)
 
-					else -> {
-						getString(R.string.guess_the_number)
+						secretNumber < tietNumber.text.toString()
+							.toInt() -> getString(R.string.too_high)
+
+						else -> {
+							getString(R.string.guess_the_number)
+						}
 					}
-				}
 
-				if (secretNumber.toString() == tietNumber.text.toString()) {
-					guessCount += 1
-					viewModel.wonGame()
-					tvNumberActual.text = secretNumber.toString()
-				}
+					if (secretNumber.toString() == tietNumber.text.toString()) {
+						guessCount += 1
 
-				val txt = buildString {
-					append(getString(R.string.guess_left))
-					append(guessCount)
+						viewModel.wonGame()
+						lifecycleScope.launch {
+							if (guessCount * 10 > gameRepository.getHighscoreForGame(1)!!) {
+								val newScore = GameEntity(
+									1,
+									getString(R.string.guess_the_number),
+									"q",
+									guessCount * 10
+								)
+								gameRepository.updateScores(newScore)
+							}
+						}
+						tvScore.text = buildString {
+							append(getString(R.string.score))
+							append((guessCount * 10).toString())
+						}
+						tvNumberActual.text = secretNumber.toString()
+					}
+
+					val txt = buildString {
+						append(getString(R.string.guess_left))
+						append(guessCount)
+					}
+					tvGuessLeft.text = txt
+					tietNumber.text = null
+				} else {
+					Toast.makeText(requireContext(), "Please enter a number", Toast.LENGTH_SHORT)
+						.show()
 				}
-				tvGuessLeft.text = txt
-				tietNumber.text = null
 			}
 
 			btnPlayAgain.setOnClickListener {
 				guessCount = 10
 				viewModel.startGame()
-				tvHintText.text = getString(R.string.guess_the_number)
+				tvHint.text = getString(R.string.guess_the_number)
 				//tvNumberActual.text = secretNumber.toString()
 
 				val txt = buildString {
@@ -91,18 +125,12 @@ class GuessTheNumberFragment : Fragment(R.layout.fragment_guessthenumber) {
 					Log.d("Fragment", "A: Loading")
 					playLayout.gone()
 					btnSubmit.gone()
-					btnPlayAgain.gone()
+					againLayout.gone()
 					btnStartGame.gone()
 
 					progressBar.visible()
 					tvEmpty.gone()
 					ivEmpty.gone()
-				}
-
-				is GuessTheNumberViewModel.PlayGuessTheNumberState.SaveState -> {
-					Log.d("Fragment", "Save State: ${state.scores}")
-					Log.d("Fragment", "A: SaveState")
-					//TODO
 				}
 
 				is GuessTheNumberViewModel.PlayGuessTheNumberState.GamingState -> {
@@ -111,7 +139,7 @@ class GuessTheNumberFragment : Fragment(R.layout.fragment_guessthenumber) {
 					playLayout.visible()
 					tilNumber.visible()
 					btnSubmit.visible()
-					btnPlayAgain.gone()
+					againLayout.gone()
 					btnStartGame.gone()
 
 					progressBar.gone()
@@ -131,7 +159,7 @@ class GuessTheNumberFragment : Fragment(R.layout.fragment_guessthenumber) {
 					tilNumber.gone()
 					btnSubmit.gone()
 					btnStartGame.gone()
-					btnPlayAgain.visible()
+					againLayout.visible()
 
 					progressBar.gone()
 					tvEmpty.gone()
@@ -144,7 +172,7 @@ class GuessTheNumberFragment : Fragment(R.layout.fragment_guessthenumber) {
 					playLayout.gone()
 					btnStartGame.visible()
 					btnSubmit.gone()
-					btnPlayAgain.gone()
+					againLayout.gone()
 
 					progressBar.gone()
 					tvEmpty.gone()
@@ -156,7 +184,7 @@ class GuessTheNumberFragment : Fragment(R.layout.fragment_guessthenumber) {
 					Log.d("Fragment", "A: EmptyScreen")
 					playLayout.gone()
 					btnSubmit.gone()
-					btnPlayAgain.gone()
+					againLayout.gone()
 					btnStartGame.gone()
 
 					progressBar.gone()
@@ -169,7 +197,7 @@ class GuessTheNumberFragment : Fragment(R.layout.fragment_guessthenumber) {
 					Log.d("Fragment", "Show Message State: ${state.errorMessage}")
 					Log.d("Fragment", "A: ShowMessage")
 					playLayout.gone()
-					btnPlayAgain.gone()
+					againLayout.gone()
 					btnSubmit.gone()
 					btnStartGame.gone()
 

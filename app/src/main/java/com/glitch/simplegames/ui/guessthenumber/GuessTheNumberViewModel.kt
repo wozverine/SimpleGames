@@ -5,19 +5,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.glitch.simplegames.common.Resource
-import com.glitch.simplegames.data.model.response.ScoreUI
-import com.glitch.simplegames.data.repository.ScoreRepository
+import com.glitch.simplegames.data.repository.GameRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 
 @HiltViewModel
 class GuessTheNumberViewModel @Inject constructor(
-	private val scoreRepository: ScoreRepository
+	private val gameRepository: GameRepository
 ) : ViewModel() {
 	private var _playGuessTheNumberState = MutableLiveData<PlayGuessTheNumberState>()
 	val playGuessTheNumberState: LiveData<PlayGuessTheNumberState> get() = _playGuessTheNumberState
@@ -28,7 +24,7 @@ class GuessTheNumberViewModel @Inject constructor(
 
 		try {
 			Log.d("ViewModel", "Before getScores()")
-			val result = scoreRepository.getScores()
+			val result = gameRepository.getHighscoreForGame(1)
 			Log.d("ViewModel repo", result.toString())
 
 			_playGuessTheNumberState.value = PlayGuessTheNumberState.WaitingState(true)
@@ -116,7 +112,6 @@ class GuessTheNumberViewModel @Inject constructor(
 		data class WaitingState(val waiting: Boolean) : PlayGuessTheNumberState
 		data class IsWonScreen(val guessLeft: Int) : PlayGuessTheNumberState
 		data class ShowMessage(val errorMessage: String) : PlayGuessTheNumberState
-		data class SaveState(val scores: List<ScoreUI>) : PlayGuessTheNumberState
 		data class EmptyScreen(val failMessage: String) : PlayGuessTheNumberState
 	}
 

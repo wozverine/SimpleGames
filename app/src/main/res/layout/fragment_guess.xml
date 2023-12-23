@@ -7,20 +7,20 @@
     tools:context=".ui.guessthenumber.GuessTheNumberFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/play_layout"
+        android:id="@+id/playLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
-        android:visibility="visible">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/tv_number_actual"
+            android:id="@+id/tvNumberActual"
             style="@style/TextAppearance.AppCompat.Display4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="50sp"
+            android:padding="30sp"
             android:text="@string/question_mark"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -30,8 +30,8 @@
             android:id="@+id/til_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/guess"
-            app:layout_constraintTop_toBottomOf="@id/tv_number_actual">
+            android:hint="@string/guess_the_number"
+            app:layout_constraintTop_toBottomOf="@id/tvNumberActual">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/tiet_number"
@@ -44,7 +44,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
-            android:id="@+id/tv_hint_text"
+            android:id="@+id/tvHint"
             style="@style/TextAppearance.AppCompat.Display1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -55,37 +55,56 @@
             app:layout_constraintTop_toBottomOf="@id/til_number" />
 
         <TextView
-            android:id="@+id/tv_guess_left"
+            android:id="@+id/tvGuessLeft"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/guess_left"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_hint_text" />
+            app:layout_constraintTop_toBottomOf="@id/tvHint" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/againLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/playLayout">
+
+        <TextView
+            android:id="@+id/tvScore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginVertical="20sp"
+            android:text="@string/score"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/btn_play_again"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40sp"
+            android:text="@string/play_again" />
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/btn_submit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80sp"
         android:text="@string/guess"
         android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/play_layout" />
-
-    <Button
-        android:id="@+id/btn_play_again"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="80sp"
-        android:text="@string/play_again"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/play_layout" />
+        app:layout_constraintTop_toBottomOf="@id/playLayout" />
 
     <Button
         android:id="@+id/btn_start_game"
@@ -102,6 +121,7 @@
         android:id="@+id/iv_empty"
         android:layout_width="100dp"
         android:layout_height="100dp"
+        android:contentDescription="@string/empty"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/tv_empty"
         app:layout_constraintEnd_toEndOf="parent"
