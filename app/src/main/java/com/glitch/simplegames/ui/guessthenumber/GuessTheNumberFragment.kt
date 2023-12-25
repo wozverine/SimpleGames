@@ -1,8 +1,11 @@
 package com.glitch.simplegames.ui.guessthenumber
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -18,6 +21,7 @@ import com.glitch.simplegames.databinding.FragmentGuessBinding
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+
 
 @AndroidEntryPoint
 class GuessTheNumberFragment : Fragment(R.layout.fragment_guess) {
@@ -74,10 +78,7 @@ class GuessTheNumberFragment : Fragment(R.layout.fragment_guess) {
 						lifecycleScope.launch {
 							if (guessCount * 10 > gameRepository.getHighscoreForGame(1)!!) {
 								val newScore = GameEntity(
-									1,
-									getString(R.string.guess_the_number),
-									"q",
-									guessCount * 10
+									1, getString(R.string.guess_the_number), "q", guessCount * 10
 								)
 								gameRepository.updateScores(newScore)
 							}
@@ -105,7 +106,6 @@ class GuessTheNumberFragment : Fragment(R.layout.fragment_guess) {
 				guessCount = 10
 				viewModel.startGame()
 				tvHint.text = getString(R.string.guess_the_number)
-				//tvNumberActual.text = secretNumber.toString()
 
 				val txt = buildString {
 					append(getString(R.string.guess_left))
@@ -114,7 +114,70 @@ class GuessTheNumberFragment : Fragment(R.layout.fragment_guess) {
 				tvGuessLeft.text = txt
 				tvNumberActual.text = getString(R.string.question_mark)
 			}
+
+			tietNumber.setOnEditorActionListener { _, actionId, _ ->
+				if (actionId == EditorInfo.IME_ACTION_DONE) {
+					if (tietNumber.text?.isNotEmpty() == true) {
+						guessCount -= 1
+
+						tvHint.text = when {
+							tietNumber.text.toString()
+								.toInt() == secretNumber -> getString(R.string.congrats)
+
+							secretNumber > tietNumber.text.toString()
+								.toInt() -> getString(R.string.too_low)
+
+							secretNumber < tietNumber.text.toString()
+								.toInt() -> getString(R.string.too_high)
+
+							else -> {
+								getString(R.string.guess_the_number)
+							}
+						}
+
+						if (secretNumber.toString() == tietNumber.text.toString()) {
+							guessCount += 1
+
+							viewModel.wonGame()
+							lifecycleScope.launch {
+								if (guessCount * 10 > gameRepository.getHighscoreForGame(1)!!) {
+									val newScore = GameEntity(
+										1,
+										getString(R.string.guess_the_number),
+										"q",
+										guessCount * 10
+									)
+									gameRepository.updateScores(newScore)
+								}
+							}
+							tvScore.text = buildString {
+								append(getString(R.string.score))
+								append((guessCount * 10).toString())
+							}
+							tvNumberActual.text = secretNumber.toString()
+						}
+
+						val txt = buildString {
+							append(getString(R.string.guess_left))
+							append(guessCount)
+						}
+						tvGuessLeft.text = txt
+						tietNumber.text = null
+					} else {
+						Toast.makeText(
+							requireContext(), "Please enter a number", Toast.LENGTH_SHORT
+						).show()
+					}
+					true
+				} else false
+			}
+
 		}
+	}
+
+	private fun View.hideKeyboard() {
+		val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+		imm.hideSoftInputFromWindow(windowToken, 0)
 	}
 
 	private fun gamePlay() = with(binding) {
@@ -154,12 +217,12 @@ class GuessTheNumberFragment : Fragment(R.layout.fragment_guess) {
 					Log.d("Fragment", "A: IsWonScreen")
 					//findNavController().navigate(R.id.action_homeFragment_to_signInFragment)
 					//guessCount = state.guessLeft
-
 					playLayout.visible()
 					tilNumber.gone()
 					btnSubmit.gone()
 					btnStartGame.gone()
 					againLayout.visible()
+					tietNumber.hideKeyboard()
 
 					progressBar.gone()
 					tvEmpty.gone()

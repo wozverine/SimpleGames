@@ -2,21 +2,39 @@
 <resources>
     <string name="app_name">Simple Games</string>
     <string name="tic_tac_toe">Tic Tac Toe</string>
-    <string name="guess_the_number">Sayıyı Tahmin Et</string>
     <string name="choose_game">Ne oynamak istersiniz?</string>
     <string name="game_name">Oyun İsmi</string>
     <string name="high_score">Yüksek Skor</string>
     <string name="score">Skor: </string>
     <string name="hundred">100</string>
     <string name="start_game">Oyuna Başla</string>
+    <string name="congrats">Tebrikler!</string>
+    <string name="play_again">Tekrar Oyna</string>
+    <string name="empty">Boş</string>
+    //Sayıyı Tahmin Et
+    <string name="guess_the_number">Sayıyı Tahmin Et</string>
     <string name="guess">Tahmin Et</string>
     <string name="question_mark">\??</string>
     <string name="too_low">Çok Düşük</string>
     <string name="too_high">Çok Yüksek</string>
-    <string name="congrats">Tebrikler!</string>
     <string name="guess_left">Kalan tahmin sayısı: </string>
-    <string name="play_again">Tekrar Oyna</string>
-    <string name="empty">Boş</string>
+    //Ayarlar
     <string name="reset">Skorları Sıfırla</string>
     <string name="settings">Ayarlar</string>
+    //TicTacToe
+    <string name="your_turn">Sizin sıranız</string>
+    <string name="pc_turn">Bilgisayarın sırası</string>
+    <string name="you_are">Siz:</string>
+    <string name="letter_x">X</string>
+    <string name="letter_o">O</string>
+    //TicTacToe Tablosu
+    <string name="row_1_column_1">satır 1 sütun 1</string>
+    <string name="row_1_column_2">satır 1 sütun 2</string>
+    <string name="row_1_column_3">satır 1 sütun 3</string>
+    <string name="row_2_column_1">satır 2 sütun 1</string>
+    <string name="row_2_column_2">satır 2 sütun 2</string>
+    <string name="row_2_column_3">satır 2 sütun 3</string>
+    <string name="row_3_column_1">satır 3 sütun 1</string>
+    <string name="row_3_column_2">satır 3 sütun 2</string>
+    <string name="row_3_column_3">satır 3 sütun 3</string>
 </resources>
