@@ -9,8 +9,11 @@
     <string name="hundred">100</string>
     <string name="start_game">Oyuna Başla</string>
     <string name="congrats">Tebrikler!</string>
+    <string name="lost">Kaybettiniz!</string>
+    <string name="draw">Berabere!</string>
     <string name="play_again">Tekrar Oyna</string>
     <string name="empty">Boş</string>
+    <string name="error">Hata</string>
     //Sayıyı Tahmin Et
     <string name="guess_the_number">Sayıyı Tahmin Et</string>
     <string name="guess">Tahmin Et</string>

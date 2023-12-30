@@ -198,7 +198,7 @@ class GuessTheNumberFragment : Fragment(R.layout.fragment_guess) {
 
 				is GuessTheNumberViewModel.PlayGuessTheNumberState.GamingState -> {
 					Log.d("Fragment", "Gaming State: ${state.gaming}")
-					Log.d("Fragment", "A: GamingState")
+					Log.d("Fragment", "A: PlayerMoveState")
 					playLayout.visible()
 					tilNumber.visible()
 					btnSubmit.visible()
@@ -231,7 +231,7 @@ class GuessTheNumberFragment : Fragment(R.layout.fragment_guess) {
 
 				is GuessTheNumberViewModel.PlayGuessTheNumberState.WaitingState -> {
 					Log.d("Fragment", "Waiting State: ${state.waiting}")
-					Log.d("Fragment", "A: WaitingState")
+					Log.d("Fragment", "A: PCMoveState")
 					playLayout.gone()
 					btnStartGame.visible()
 					btnSubmit.gone()

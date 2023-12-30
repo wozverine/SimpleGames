@@ -119,12 +119,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/iv_empty"
+        android:id="@+id/ivEmpty"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:contentDescription="@string/empty"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/tv_empty"
+        app:layout_constraintBottom_toTopOf="@+id/tvEmpty"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -133,7 +133,7 @@
         app:srcCompat="@drawable/icon_nodata" />
 
     <TextView
-        android:id="@+id/tv_empty"
+        android:id="@+id/tvEmpty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -143,7 +143,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_empty" />
+        app:layout_constraintTop_toBottomOf="@+id/ivEmpty" />
 
     <ProgressBar
         android:id="@+id/progressBar"
