@@ -9,24 +9,11 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
 @HiltViewModel
 class GuessTheNumberViewModel @Inject constructor(
 ) : ViewModel() {
 	private var _playGuessTheNumberState = MutableLiveData<PlayGuessTheNumberState>()
 	val playGuessTheNumberState: LiveData<PlayGuessTheNumberState> get() = _playGuessTheNumberState
-
-
-	fun openPage() = viewModelScope.launch {
-		_playGuessTheNumberState.value = PlayGuessTheNumberState.Loading
-
-		try {
-			_playGuessTheNumberState.value = PlayGuessTheNumberState.WaitingState(true)
-		} catch (e: Exception) {
-			_playGuessTheNumberState.value =
-				PlayGuessTheNumberState.EmptyScreen("An error occurred")
-		}
-	}
 
 	fun startGame() = viewModelScope.launch {
 		_playGuessTheNumberState.value = PlayGuessTheNumberState.Loading
@@ -51,7 +38,16 @@ class GuessTheNumberViewModel @Inject constructor(
 			_playGuessTheNumberState.value =
 				PlayGuessTheNumberState.EmptyScreen("An error occurred")
 		}
+	}
 
+	fun lostGame() = viewModelScope.launch {
+		try {
+			_playGuessTheNumberState.value = PlayGuessTheNumberState.IsLostScreen
+		} catch (e: Exception) {
+			Log.d("ViewModel", "Exception in lostGame(): ${e.message}")
+			_playGuessTheNumberState.value =
+				PlayGuessTheNumberState.EmptyScreen("An error occurred")
+		}
 	}
 
 	private fun generateSecretNumber(): Int {
@@ -61,10 +57,9 @@ class GuessTheNumberViewModel @Inject constructor(
 	sealed interface PlayGuessTheNumberState {
 		data object Loading : PlayGuessTheNumberState
 		data class GamingState(val gaming: Boolean, val secretNumber: Int) : PlayGuessTheNumberState
-		data class WaitingState(val waiting: Boolean) : PlayGuessTheNumberState
 		data class IsWonScreen(val guessLeft: Int) : PlayGuessTheNumberState
+		data object IsLostScreen : PlayGuessTheNumberState
 		data class ShowMessage(val errorMessage: String) : PlayGuessTheNumberState
 		data class EmptyScreen(val failMessage: String) : PlayGuessTheNumberState
 	}
-
 }

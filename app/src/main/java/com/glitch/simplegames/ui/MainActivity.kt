@@ -1,15 +1,15 @@
 package com.glitch.simplegames.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.glitch.simplegames.R
 import com.glitch.simplegames.databinding.ActivityMainBinding
+import com.glitch.simplegames.ui.home.HomeFragment
 import dagger.hilt.android.AndroidEntryPoint
-
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -27,11 +27,20 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
         val navController = navHostFragment.navController
 
-
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
-        //NavigationUI.setupWithNavController(binding.bottomNavigation, navController)
         supportActionBar?.hide()
 
+        val callback = object : OnBackPressedCallback(true /* enabled by default */) {
+            override fun handleOnBackPressed() {
+                val currentFragment = navHostFragment.childFragmentManager.primaryNavigationFragment
+                if (currentFragment is HomeFragment) {
+                    finish()
+                } else {
+                    navController.navigateUp()
+                }
+            }
+        }
+        onBackPressedDispatcher.addCallback(this, callback)
     }
 }

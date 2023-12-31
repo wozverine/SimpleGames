@@ -76,7 +76,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 			}
 		}
 	}
-
 	private fun goToGame() = with(binding) {
 		viewModel.selectGameState.observe(viewLifecycleOwner) { state ->
 			when (state) {

@@ -31,7 +31,7 @@ class HomeViewModel @Inject constructor(
 		}
 	}
 
-	suspend fun getHighscore(gameId: Int): Int? {
+	suspend fun getHighscore(gameId: Int): Int {
 		return gameRepository.getHighscoreForGame(gameId) ?: 0
 	}
 
@@ -44,7 +44,7 @@ class HomeViewModel @Inject constructor(
 
 }
 sealed interface SelectGameState {
-	object Loading : SelectGameState
+	data object Loading : SelectGameState
 	data class SuccessState(val games: List<GameUI>) : SelectGameState
 	data class EmptyScreen(val failMessage: String) : SelectGameState
 	data class ShowMessage(val errorMessage: String) : SelectGameState

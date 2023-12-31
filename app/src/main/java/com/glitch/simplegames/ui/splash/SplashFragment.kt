@@ -25,10 +25,6 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
                 SplashState.GoToHome -> {
                     findNavController().navigate(R.id.homeFragment)
                 }
-
-                else -> {
-                    findNavController().navigate(R.id.homeFragment)
-                }
             }
         }
     }

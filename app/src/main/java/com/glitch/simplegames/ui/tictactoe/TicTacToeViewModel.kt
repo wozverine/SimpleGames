@@ -1,6 +1,5 @@
 package com.glitch.simplegames.ui.tictactoe
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -18,14 +17,12 @@ class TicTacToeViewModel @Inject constructor(
 	private var board = Array(3) { Array(3) { "" } }
 
 	fun checkStart() = viewModelScope.launch {
-		Log.v("TicTacToeViewModel", "checkStart()")
 		board = Array(3) { Array(3) { "" } }
 		val isHumanX: Boolean = generateXO()
 		_playTicTacToeState.value = PlayTicTacToeState.StartState(isHumanX)
 	}
 
 	fun firstTurn(isHumanX: Boolean) = viewModelScope.launch {
-		Log.v("TicTacToeViewModel", "firstTurn()")
 		if (isHumanX) {
 			_playTicTacToeState.value = PlayTicTacToeState.PlayerMoveState
 		} else {
@@ -39,27 +36,6 @@ class TicTacToeViewModel @Inject constructor(
 			checkGameResult(isItHuman = true)
 		}
 	}
-
-	/*private fun pcMove() = viewModelScope.launch {
-		Log.v("TicTacToeViewModel", "pcMove()")
-		// Simple random move for demonstration purposes
-		val emptyCells = mutableListOf<Pair<Int, Int>>()
-		for (i in 0 until 3) {
-			for (j in 0 until 3) {
-				if (board[i][j].isEmpty()) {
-					emptyCells.add(Pair(i, j))
-				}
-			}
-		}
-
-		if (emptyCells.isNotEmpty()) {
-			Log.v("TicTacToeViewModel", "pcMove()emptyCells.isNotEmpty()")
-			val randomIndex = Random.nextInt(emptyCells.size)
-			val (row, col) = emptyCells[randomIndex]
-			board[row][col] = "O"
-			_playTicTacToeState.value = PlayTicTacToeState.PCMoveState(row = row, column = col)
-		}
-	}*/
 
 	private fun pcMove() = viewModelScope.launch {
 		val emptyCells = board.flatten().withIndex().filter { it.value.isEmpty() }
@@ -75,8 +51,6 @@ class TicTacToeViewModel @Inject constructor(
 
 
 	fun checkGameResult(isItHuman: Boolean) {
-		Log.v("TicTacToeViewModel", "checkGameResult()")
-
 		for (i in 0 until 3) {
 			// Check rows
 			if (board[i][0] == board[i][1] && board[i][1] == board[i][2] && board[i][0].isNotEmpty()) {
@@ -101,48 +75,23 @@ class TicTacToeViewModel @Inject constructor(
 			return
 		}
 
-		// Check for a draw
-		/*if (board.all { row -> row.all { cell -> cell.isNotEmpty() } }) {
-			_playTicTacToeState.value = PlayTicTacToeState.DrawState
-			Log.v("TicTacToeViewModel", "draw")
-			return
-		}*/
-
 		if (board.flatten().all { it.isNotEmpty() }) {
 			_playTicTacToeState.value = PlayTicTacToeState.DrawState
 			return
 		}
 
-
 		// If no win or draw, proceed with the next move
-		Log.v("TicTacToeViewModel", "else")
 		if (isItHuman) {
 			pcMove()
-			Log.v("TicTacToeViewModel", "else - turnToPc")
 			return
 		} else {
 			_playTicTacToeState.value = PlayTicTacToeState.PlayerMoveState
-			Log.v("TicTacToeViewModel", "else - turnToPlayer")
 		}
 	}
-
-
-	/*private fun handleWinOrDraw(isItHuman: Boolean) {
-		Log.v("TicTacToeViewModel", "handleWinOrDraw()")
-		Log.v("TicTacToeViewModel", isItHuman.toString())
-		when (isItHuman) {
-			true -> _playTicTacToeState.value =
-				PlayTicTacToeState.IsWonScreen(playerWon = true)
-
-			false -> _playTicTacToeState.value =
-				PlayTicTacToeState.IsWonScreen(playerWon = false)
-		}
-	}*/
 
 	private fun handleWinOrDraw(isItHuman: Boolean) {
 		_playTicTacToeState.value = PlayTicTacToeState.IsWonScreen(isItHuman)
 	}
-
 
 	private fun generateXO(): Boolean {
 		return Random.nextBoolean()

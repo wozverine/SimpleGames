@@ -2,7 +2,6 @@ package com.glitch.simplegames.ui.guessthenumber
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -22,7 +21,6 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
-
 @AndroidEntryPoint
 class GuessTheNumberFragment : Fragment(R.layout.fragment_guess) {
 	private val binding by viewBinding(FragmentGuessBinding::bind)
@@ -40,18 +38,9 @@ class GuessTheNumberFragment : Fragment(R.layout.fragment_guess) {
 		val gameDao = GameRoomDB.getInstance(requireContext()).gameDao()
 		gameRepository = GameRepository(gameDao)
 
-		viewModel.openPage()
+		viewModel.startGame()
 		gamePlay()
 		with(binding) {
-			btnStartGame.setOnClickListener {
-				viewModel.startGame()
-				tvNumberActual.text = getString(R.string.question_mark)
-				tvGuessLeft.text = buildString {
-					append(getString(R.string.guess_left))
-					append(guessCount)
-				}
-			}
-
 			btnSubmit.setOnClickListener {
 				if (tietNumber.text?.isNotEmpty() == true) {
 					guessCount -= 1
@@ -96,6 +85,9 @@ class GuessTheNumberFragment : Fragment(R.layout.fragment_guess) {
 					}
 					tvGuessLeft.text = txt
 					tietNumber.text = null
+					if (guessCount == 0) {
+						viewModel.lostGame()
+					}
 				} else {
 					Toast.makeText(requireContext(), "Please enter a number", Toast.LENGTH_SHORT)
 						.show()
@@ -163,6 +155,9 @@ class GuessTheNumberFragment : Fragment(R.layout.fragment_guess) {
 						}
 						tvGuessLeft.text = txt
 						tietNumber.text = null
+						if (guessCount == 0) {
+							viewModel.lostGame()
+						}
 					} else {
 						Toast.makeText(
 							requireContext(), "Please enter a number", Toast.LENGTH_SHORT
@@ -171,7 +166,6 @@ class GuessTheNumberFragment : Fragment(R.layout.fragment_guess) {
 					true
 				} else false
 			}
-
 		}
 	}
 
@@ -184,12 +178,9 @@ class GuessTheNumberFragment : Fragment(R.layout.fragment_guess) {
 		viewModel.playGuessTheNumberState.observe(viewLifecycleOwner) { state ->
 			when (state) {
 				GuessTheNumberViewModel.PlayGuessTheNumberState.Loading -> {
-					Log.d("Fragment", "Loading State: $state")
-					Log.d("Fragment", "A: Loading")
 					playLayout.gone()
 					btnSubmit.gone()
 					againLayout.gone()
-					btnStartGame.gone()
 
 					progressBar.visible()
 					tvEmpty.gone()
@@ -197,13 +188,10 @@ class GuessTheNumberFragment : Fragment(R.layout.fragment_guess) {
 				}
 
 				is GuessTheNumberViewModel.PlayGuessTheNumberState.GamingState -> {
-					Log.d("Fragment", "Gaming State: ${state.gaming}")
-					Log.d("Fragment", "A: PlayerMoveState")
 					playLayout.visible()
 					tilNumber.visible()
 					btnSubmit.visible()
 					againLayout.gone()
-					btnStartGame.gone()
 
 					progressBar.gone()
 					tvEmpty.gone()
@@ -213,14 +201,9 @@ class GuessTheNumberFragment : Fragment(R.layout.fragment_guess) {
 				}
 
 				is GuessTheNumberViewModel.PlayGuessTheNumberState.IsWonScreen -> {
-					Log.d("Fragment", "IsWon State: ${state.guessLeft}")
-					Log.d("Fragment", "A: IsWonScreen")
-					//findNavController().navigate(R.id.action_homeFragment_to_signInFragment)
-					//guessCount = state.guessLeft
 					playLayout.visible()
 					tilNumber.gone()
 					btnSubmit.gone()
-					btnStartGame.gone()
 					againLayout.visible()
 					tietNumber.hideKeyboard()
 
@@ -229,13 +212,14 @@ class GuessTheNumberFragment : Fragment(R.layout.fragment_guess) {
 					ivEmpty.gone()
 				}
 
-				is GuessTheNumberViewModel.PlayGuessTheNumberState.WaitingState -> {
-					Log.d("Fragment", "Waiting State: ${state.waiting}")
-					Log.d("Fragment", "A: PCMoveState")
-					playLayout.gone()
-					btnStartGame.visible()
+				is GuessTheNumberViewModel.PlayGuessTheNumberState.IsLostScreen -> {
+					playLayout.visible()
+					tilNumber.gone()
 					btnSubmit.gone()
-					againLayout.gone()
+					againLayout.visible()
+					tietNumber.hideKeyboard()
+					tvScore.text = getString(R.string.lost)
+					tvNumberActual.text = secretNumber.toString()
 
 					progressBar.gone()
 					tvEmpty.gone()
@@ -243,12 +227,9 @@ class GuessTheNumberFragment : Fragment(R.layout.fragment_guess) {
 				}
 
 				is GuessTheNumberViewModel.PlayGuessTheNumberState.EmptyScreen -> {
-					Log.d("Fragment", "Empty Screen State: ${state.failMessage}")
-					Log.d("Fragment", "A: EmptyScreen")
 					playLayout.gone()
 					btnSubmit.gone()
 					againLayout.gone()
-					btnStartGame.gone()
 
 					progressBar.gone()
 					tvEmpty.text = state.failMessage
@@ -257,12 +238,9 @@ class GuessTheNumberFragment : Fragment(R.layout.fragment_guess) {
 				}
 
 				is GuessTheNumberViewModel.PlayGuessTheNumberState.ShowMessage -> {
-					Log.d("Fragment", "Show Message State: ${state.errorMessage}")
-					Log.d("Fragment", "A: ShowMessage")
 					playLayout.gone()
 					againLayout.gone()
 					btnSubmit.gone()
-					btnStartGame.gone()
 
 					progressBar.gone()
 					Snackbar.make(requireView(), state.errorMessage, 1000).show()

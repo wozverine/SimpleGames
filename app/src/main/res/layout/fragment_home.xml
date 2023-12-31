@@ -15,6 +15,7 @@
         android:adjustViewBounds="true"
         android:importantForAccessibility="no"
         android:scaleType="fitXY"
+        android:scaleY="2"
         android:src="@drawable/hud2_3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,8 +29,10 @@
         android:padding="10sp"
         android:text="@string/choose_game"
         android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="@id/iv_hud_2_3"
+        app:layout_constraintEnd_toEndOf="@id/iv_hud_2_3"
         app:layout_constraintStart_toStartOf="@id/iv_hud_2_3"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@id/iv_hud_2_3" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_game_list"

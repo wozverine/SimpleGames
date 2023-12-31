@@ -1,6 +1,5 @@
 package com.glitch.simplegames.data.mapper
 
-import com.glitch.simplegames.data.model.response.Game
 import com.glitch.simplegames.data.model.response.GameEntity
 import com.glitch.simplegames.data.model.response.GameUI
 

@@ -1,7 +1,6 @@
 package com.glitch.simplegames.ui.tictactoe
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import androidx.core.view.isVisible
@@ -25,11 +24,9 @@ class TicTacToeFragment : Fragment(R.layout.fragment_tictactoe) {
 		gamePlay()
 
 		initializeButtonListeners()
-		with(binding) {
-			btnPlayAgain.setOnClickListener {
-				resetBoard()
-				viewModel.checkStart()
-			}
+		binding.btnPlayAgain.setOnClickListener {
+			resetBoard()
+			viewModel.checkStart()
 		}
 	}
 
@@ -58,8 +55,6 @@ class TicTacToeFragment : Fragment(R.layout.fragment_tictactoe) {
 	}
 
 	private fun updateBoardForPCMove(row: Int, col: Int) {
-		Log.v("TicTacToeFragment", "updateBoardForPCMoveStart")
-		// Get the corresponding ImageButton for the PC move and update its drawable
 		val button = when (row) {
 			0 -> when (col) {
 				0 -> binding.imgBtn1
@@ -86,15 +81,13 @@ class TicTacToeFragment : Fragment(R.layout.fragment_tictactoe) {
 			button.tag = "X"
 		}
 		viewModel.checkGameResult(isItHuman = false)
-		Log.v("TicTacToeFragment", "updateBoardForPCMove - checkGameResult")
 	}
-
 
 	private fun resetBoard() = with(binding) {
 		layoutGrid.isVisible = true
 		layoutPlaying.isVisible = true
 		layoutEnd.isVisible = false
-		Log.v("TicTacToeFragment", "resetBoard")
+
 		imgBtn1.setImageResource(R.drawable.icons8_octahedron_64)
 		imgBtn2.setImageResource(R.drawable.icons8_octahedron_64)
 		imgBtn3.setImageResource(R.drawable.icons8_octahedron_64)
@@ -138,11 +131,9 @@ class TicTacToeFragment : Fragment(R.layout.fragment_tictactoe) {
 					progressBar.visible()
 					tvEmpty.gone()
 					ivEmpty.gone()
-					Log.v("TicTacToeFragment", "Observed state: $state")
 				}
 
 				is TicTacToeViewModel.PlayTicTacToeState.StartState -> {
-					Log.v("TicTacToeFragment", "Observed state: $state")
 					layoutGrid.isVisible = true
 					layoutPlaying.isVisible = true
 					layoutEnd.isVisible = false
@@ -165,7 +156,6 @@ class TicTacToeFragment : Fragment(R.layout.fragment_tictactoe) {
 					progressBar.isVisible = false
 					tvEmpty.isVisible = false
 					ivEmpty.isVisible = false
-					Log.v("TicTacToeFragment", "Observed state: $state")
 					tvTurn.text = getString(R.string.your_turn)
 					btnControl(true)
 				}
@@ -177,7 +167,6 @@ class TicTacToeFragment : Fragment(R.layout.fragment_tictactoe) {
 					progressBar.isVisible = false
 					tvEmpty.isVisible = false
 					ivEmpty.isVisible = false
-					Log.v("TicTacToeFragment", "Observed state: $state")
 					tvTurn.text = getString(R.string.pc_turn)
 					btnControl(false)
 					updateBoardForPCMove(state.row, state.column)
@@ -190,12 +179,12 @@ class TicTacToeFragment : Fragment(R.layout.fragment_tictactoe) {
 					progressBar.isVisible = false
 					tvEmpty.isVisible = false
 					ivEmpty.isVisible = false
+					btnControl(false)
 					if (state.playerWon) {
 						tvGameEnd.text = getString(R.string.congrats)
 					} else {
 						tvGameEnd.text = getString(R.string.lost)
 					}
-					Log.v("TicTacToeFragment", "Observed state: $state")
 				}
 
 				TicTacToeViewModel.PlayTicTacToeState.DrawState -> {
@@ -205,18 +194,18 @@ class TicTacToeFragment : Fragment(R.layout.fragment_tictactoe) {
 					progressBar.isVisible = false
 					tvEmpty.isVisible = false
 					ivEmpty.isVisible = false
+					btnControl(false)
 					tvGameEnd.text = getString(R.string.draw)
-					Log.v("TicTacToeFragment", "Observed state: $state")
 				}
 
 				else -> {
 					layoutGrid.isVisible = false
 					layoutEnd.isVisible = true
 					layoutPlaying.isVisible = false
+					btnControl(false)
 					progressBar.isVisible = false
 					tvEmpty.isVisible = true
 					ivEmpty.isVisible = true
-					Log.v("TicTacToeFragment", "elseLAAAAAAAAAAA")
 				}
 			}
 		}
