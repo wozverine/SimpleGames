@@ -1,4 +1,6 @@
 # Simple Games
+![simple games promotional 2](https://github.com/wozverine/SimpleGames/assets/23726873/9e1ae36d-4b11-4f80-b896-e11ea4b4add6)
+
 
 ## Project Features
 - [x] MVVM with Clean Architecture
@@ -7,7 +9,9 @@
 - [x] Hilt for Dependency Injection
 - [x] Room Database
 - [x] Glide
-- [x] Lottie 
+- [x] Lottie
+
+ON PLAY STORE: https://play.google.com/store/apps/details?id=com.glitch.simplegames
       
  ## Screens
 | Splash | Home Screen | Guess The Number |
