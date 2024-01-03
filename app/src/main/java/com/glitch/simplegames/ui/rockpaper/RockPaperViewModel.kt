@@ -13,11 +13,19 @@ class RockPaperViewModel @Inject constructor(
 	val rockPaperState: LiveData<RockPaperState> get() = _rockPaperState
 
 	fun playGame(playerChoice: RockPaperState, computerChoice: RockPaperState): String {
+		_rockPaperState.value = computerChoice
 		return when {
 			playerChoice == computerChoice -> "It's a tie!"
 			playerChoice is RockPaperState.Rock && computerChoice is RockPaperState.Scissors ||
+					playerChoice is RockPaperState.Rock && computerChoice is RockPaperState.Lizard ||
+					playerChoice is RockPaperState.Scissors && computerChoice is RockPaperState.Paper ||
+					playerChoice is RockPaperState.Scissors && computerChoice is RockPaperState.Lizard ||
+					playerChoice is RockPaperState.Lizard && computerChoice is RockPaperState.Spock ||
+					playerChoice is RockPaperState.Lizard && computerChoice is RockPaperState.Paper ||
+					playerChoice is RockPaperState.Spock && computerChoice is RockPaperState.Scissors ||
+					playerChoice is RockPaperState.Spock && computerChoice is RockPaperState.Rock ||
 					playerChoice is RockPaperState.Paper && computerChoice is RockPaperState.Rock ||
-					playerChoice is RockPaperState.Scissors && computerChoice is RockPaperState.Paper ->
+					playerChoice is RockPaperState.Paper && computerChoice is RockPaperState.Spock ->
 				"You win!"
 
 			else -> "Computer wins!"
@@ -25,18 +33,20 @@ class RockPaperViewModel @Inject constructor(
 	}
 
 	fun generateComputerChoice(): RockPaperState {
-		return when ((0..2).random()) {
+		return when ((0..4).random()) {
 			0 -> RockPaperState.Rock
 			1 -> RockPaperState.Paper
-			else -> RockPaperState.Scissors
+			2 -> RockPaperState.Scissors
+			3 -> RockPaperState.Lizard
+			else -> RockPaperState.Spock
 		}
 	}
 
 	sealed interface RockPaperState {
-		data object Loading : RockPaperState
 		data object Rock : RockPaperState
 		data object Paper : RockPaperState
 		data object Scissors : RockPaperState
-		data object winOrLoss : RockPaperState
+		data object Lizard : RockPaperState
+		data object Spock : RockPaperState
 	}
 }

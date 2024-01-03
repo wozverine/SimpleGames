@@ -39,6 +39,14 @@
     <string name="row_3_column_1">row 3 column 1</string>
     <string name="row_3_column_2">row 3 column 2</string>
     <string name="row_3_column_3">row 3 column 3</string>
-
-
+    //Rock Paper Scissors
+    <string name="rock_paper">Rock Paper Scissors</string>
+    <string name="you">You</string>
+    <string name="pc">PC</string>
+    <string name="pick_one">Pick One</string>
+    <string name="rock">Rock</string>
+    <string name="paper">Paper</string>
+    <string name="scissors">Scissors</string>
+    <string name="lizard">Lizard</string>
+    <string name="spock">Spock</string>
 </resources>

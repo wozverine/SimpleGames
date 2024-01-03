@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.glitch.simplegames.BuildConfig
 import com.glitch.simplegames.R
 import com.glitch.simplegames.common.gone
 import com.glitch.simplegames.common.viewBinding
@@ -32,16 +33,21 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 		super.onViewCreated(view, savedInstanceState)
 		sharedPref = requireActivity().getSharedPreferences("AppSettings", Context.MODE_PRIVATE)
 
-		/*val currentVersionCode = BuildConfig.VERSION_CODE
+		val currentVersionCode = BuildConfig.VERSION_CODE
 		val storedVersionCode = sharedPref.getInt("versionCode", -1)
-
 		if (currentVersionCode > storedVersionCode) {
-			// Execute setup code (e.g., add new games)
-
-			// Update stored version code
+			val rockPaperScoreEntity =
+				GameEntity(
+					gameId = 2,
+					title = getString(R.string.rock_paper),
+					username = "q",
+					highScore = 0
+				)
+			viewLifecycleOwner.lifecycleScope.launch {
+				viewModel.addGame(rockPaperScoreEntity)
+			}
 			sharedPref.edit().putInt("versionCode", currentVersionCode).apply()
-		}*/
-
+		}
 
 		if (sharedPref.getBoolean("firstTime", true)) {
 			val ticTacToeScoreEntity =
@@ -58,9 +64,17 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 					username = "q",
 					highScore = 0
 				)
+			val rockPaperScoreEntity =
+				GameEntity(
+					gameId = 2,
+					title = getString(R.string.rock_paper),
+					username = "q",
+					highScore = 0
+				)
 			viewLifecycleOwner.lifecycleScope.launch {
 				viewModel.addGame(ticTacToeScoreEntity)
 				viewModel.addGame(guessTheNumberScoreEntity)
+				viewModel.addGame(rockPaperScoreEntity)
 				sharedPref.edit().putBoolean("firstTime", false).apply()
 				viewModel.getGames()
 			}
@@ -76,6 +90,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 			}
 		}
 	}
+
+
 	private fun goToGame() = with(binding) {
 		viewModel.selectGameState.observe(viewLifecycleOwner) { state ->
 			when (state) {
@@ -102,6 +118,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 		}
 		if (id == 1) {
 			findNavController().navigate(R.id.action_homeFragment_to_guessTheNumberFragment)
+		}
+		if (id == 2) {
+			findNavController().navigate(R.id.action_homeFragment_to_rockPaperFragment)
 		}
 	}
 }

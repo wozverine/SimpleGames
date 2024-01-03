@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Simple Games</string>
     <string name="tic_tac_toe">Tic Tac Toe</string>
     <string name="choose_game">Ne oynamak istersiniz?</string>
@@ -40,4 +40,14 @@
     <string name="row_3_column_1">satır 3 sütun 1</string>
     <string name="row_3_column_2">satır 3 sütun 2</string>
     <string name="row_3_column_3">satır 3 sütun 3</string>
+    //Rock Paper Scissors
+    <string name="rock_paper">Taş Kağıt Makas</string>
+    <string name="you">Siz</string>
+    <string name="pc">PC</string>
+    <string name="pick_one">Seçiniz</string>
+    <string name="rock">Taş</string>
+    <string name="scissors">Makas</string>
+    <string name="paper" tools:ignore="Typos">Kağıt</string>
+    <string name="lizard">Kertenkele</string>
+    <string name="spock">Spock</string>
 </resources>

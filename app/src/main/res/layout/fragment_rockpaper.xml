@@ -1,113 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ui.rockpaper.RockPaperFragment">
 
     <GridLayout
         android:id="@+id/gridLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="10sp"
+        android:layout_weight="3"
         android:columnCount="2"
-        android:rowCount="3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:rowCount="4"
         tools:context=".GridXMLActivity">
 
         <ImageButton
-            android:id="@+id/ivRock"
+            android:id="@+id/ibRock"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_row="0"
             android:layout_rowWeight="1"
             android:layout_column="0"
             android:layout_columnWeight="1"
             android:adjustViewBounds="true"
-            android:contentDescription="TODO"
+            android:contentDescription="@string/rock"
             android:scaleType="fitCenter"
             android:src="@drawable/rock" />
 
         <ImageButton
-            android:id="@+id/ivPaper"
+            android:id="@+id/ibPaper"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_row="0"
             android:layout_rowWeight="1"
             android:layout_column="1"
             android:layout_columnWeight="1"
             android:adjustViewBounds="true"
-            android:contentDescription="TODO"
+            android:contentDescription="@string/paper"
             android:scaleType="fitCenter"
             android:src="@drawable/paper" />
 
         <ImageButton
-            android:id="@+id/ivScissors"
+            android:id="@+id/ibScissors"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_row="1"
             android:layout_rowWeight="1"
             android:layout_column="0"
             android:layout_columnWeight="1"
             android:adjustViewBounds="true"
-            android:contentDescription="TODO"
+            android:contentDescription="@string/scissors"
             android:scaleType="fitCenter"
             android:src="@drawable/scissors" />
 
         <ImageButton
-            android:id="@+id/ivLizard"
+            android:id="@+id/ibLizard"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_row="1"
             android:layout_rowWeight="1"
             android:layout_column="1"
             android:layout_columnWeight="1"
             android:adjustViewBounds="true"
-            android:contentDescription="TODO"
+            android:contentDescription="@string/lizard"
             android:scaleType="fitCenter"
             android:src="@drawable/lizard" />
 
         <ImageButton
-            android:id="@+id/ivSpock"
+            android:id="@+id/ibSpock"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_row="2"
             android:layout_rowWeight="1"
             android:layout_column="0"
             android:layout_columnWeight="1"
             android:adjustViewBounds="true"
-            android:contentDescription="TODO"
+            android:contentDescription="@string/spock"
             android:scaleType="fitCenter"
             android:src="@drawable/spock" />
 
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_row="3"
+            android:layout_rowWeight="0.2"
+            android:layout_column="0"
+            android:layout_columnWeight="1"
+            android:gravity="center"
+            android:text="@string/you"
+            android:textSize="24sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_row="3"
+            android:layout_rowWeight="0.2"
+            android:layout_column="1"
+            android:layout_columnWeight="1"
+            android:gravity="center"
+            android:text="@string/pc"
+            android:textSize="24sp" />
 
     </GridLayout>
 
-    <ImageButton
-        android:id="@+id/ivPc"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:adjustViewBounds="true"
-        android:contentDescription="TODO"
-        android:scaleType="fitCenter"
-        android:src="@drawable/rock"
-        app:layout_constraintTop_toBottomOf="@id/gridLayout"
-        app:layout_constraintBottom_toTopOf="@id/tvWin"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:orientation="horizontal">
 
+        <ImageButton
+            android:id="@+id/ivPlayer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/you"
+            android:scaleType="fitCenter"
+            android:src="@drawable/placeholder"
+            tools:ignore="DuplicateSpeakableTextCheck" />
+
+        <ImageButton
+            android:id="@+id/ivPc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/pc"
+            android:scaleType="fitCenter"
+            android:src="@drawable/placeholder"
+            tools:ignore="DuplicateSpeakableTextCheck" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/tvWin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingBottom="10dp"
-        android:text="@string/congrats"
-        android:textSize="32sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp"
+        android:text="@string/pick_one"
+        android:textSize="32sp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
