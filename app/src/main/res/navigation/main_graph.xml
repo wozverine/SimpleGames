@@ -33,6 +33,9 @@
             app:destination="@id/settingsFragment"
             app:popUpTo="@id/homeFragment"
             app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_homeFragment_to_rockPaperFragment"
+            app:destination="@id/rockPaperFragment" />
     </fragment>
 
     <fragment
@@ -49,5 +52,10 @@
         android:id="@+id/settingsFragment"
         android:name="com.glitch.simplegames.ui.settings.SettingsFragment"
         android:label="SettingsFragment"
-        tools:layout="@layout/fragment_settings"/>
+        tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/rockPaperFragment"
+        android:name="com.glitch.simplegames.ui.rockpaper.RockPaperFragment"
+        android:label="fragment_rockpaper"
+        tools:layout="@layout/fragment_rockpaper" />
 </navigation>
