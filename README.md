@@ -31,3 +31,8 @@ ON PLAY STORE: https://play.google.com/store/apps/details?id=com.glitch.simplega
 | ------ | ---- | ------ |
 |![image](https://github.com/wozverine/SimpleGames/assets/23726873/73a6e3b5-f18d-4cb8-a4c1-f6d01e89e03a)|![image](https://github.com/wozverine/SimpleGames/assets/23726873/d31073c9-02f2-4a66-b0d5-3e4667f48f6b)|![image](https://github.com/wozverine/SimpleGames/assets/23726873/bcdff9b0-dad5-4c8e-bc11-729efbc9df77)|
 
+| Rock Paper Scissors Lizard Spock | Rock Paper Scissors Lizard Spock | Rock Paper Scissors Lizard Spock |
+| ------ | ---- | ------ |
+|![image](https://github.com/wozverine/SimpleGames/assets/23726873/408279f6-1300-4413-a0b5-7f21d28590a0)|![image](https://github.com/wozverine/SimpleGames/assets/23726873/e87d4da4-4303-4f80-8a28-f0195d83552f)|![image](https://github.com/wozverine/SimpleGames/assets/23726873/800725d9-3f0e-4661-8611-846eb278ac56)|
+
+
