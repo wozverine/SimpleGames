@@ -103,7 +103,6 @@
             android:gravity="center"
             android:text="@string/pc"
             android:textSize="24sp" />
-
     </GridLayout>
 
     <LinearLayout
@@ -113,7 +112,7 @@
         android:layout_weight="1"
         android:orientation="horizontal">
 
-        <ImageButton
+        <ImageView
             android:id="@+id/ivPlayer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -124,7 +123,7 @@
             android:src="@drawable/placeholder"
             tools:ignore="DuplicateSpeakableTextCheck" />
 
-        <ImageButton
+        <ImageView
             android:id="@+id/ivPc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

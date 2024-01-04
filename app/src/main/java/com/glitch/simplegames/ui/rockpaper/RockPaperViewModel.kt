@@ -15,7 +15,7 @@ class RockPaperViewModel @Inject constructor(
 	fun playGame(playerChoice: RockPaperState, computerChoice: RockPaperState): String {
 		_rockPaperState.value = computerChoice
 		return when {
-			playerChoice == computerChoice -> "It's a tie!"
+			playerChoice == computerChoice -> "D"
 			playerChoice is RockPaperState.Rock && computerChoice is RockPaperState.Scissors ||
 					playerChoice is RockPaperState.Rock && computerChoice is RockPaperState.Lizard ||
 					playerChoice is RockPaperState.Scissors && computerChoice is RockPaperState.Paper ||
@@ -26,9 +26,9 @@ class RockPaperViewModel @Inject constructor(
 					playerChoice is RockPaperState.Spock && computerChoice is RockPaperState.Rock ||
 					playerChoice is RockPaperState.Paper && computerChoice is RockPaperState.Rock ||
 					playerChoice is RockPaperState.Paper && computerChoice is RockPaperState.Spock ->
-				"You win!"
+				"P"
 
-			else -> "Computer wins!"
+			else -> "PC"
 		}
 	}
 

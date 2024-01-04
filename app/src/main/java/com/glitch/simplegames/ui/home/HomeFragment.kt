@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.glitch.simplegames.BuildConfig
 import com.glitch.simplegames.R
 import com.glitch.simplegames.common.gone
 import com.glitch.simplegames.common.viewBinding
@@ -33,7 +32,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 		super.onViewCreated(view, savedInstanceState)
 		sharedPref = requireActivity().getSharedPreferences("AppSettings", Context.MODE_PRIVATE)
 
-		val currentVersionCode = BuildConfig.VERSION_CODE
+		/*val currentVersionCode = BuildConfig.VERSION_CODE
 		val storedVersionCode = sharedPref.getInt("versionCode", -1)
 		if (currentVersionCode > storedVersionCode) {
 			val rockPaperScoreEntity =
@@ -47,7 +46,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 				viewModel.addGame(rockPaperScoreEntity)
 			}
 			sharedPref.edit().putInt("versionCode", currentVersionCode).apply()
-		}
+		}*/
 
 		if (sharedPref.getBoolean("firstTime", true)) {
 			val ticTacToeScoreEntity =

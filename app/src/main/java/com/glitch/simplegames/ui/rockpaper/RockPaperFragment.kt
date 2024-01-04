@@ -2,6 +2,7 @@ package com.glitch.simplegames.ui.rockpaper
 
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageButton
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.glitch.simplegames.R
@@ -16,53 +17,30 @@ class RockPaperFragment : Fragment(R.layout.fragment_rockpaper) {
 		super.onViewCreated(view, savedInstanceState)
 
 		play()
-
 		with(binding) {
-			ibRock.setOnClickListener {
-				ivPlayer.setImageResource(R.drawable.rock)
+			setButtonListener(ibRock, R.drawable.rock, RockPaperViewModel.RockPaperState.Rock)
+			setButtonListener(ibPaper, R.drawable.paper, RockPaperViewModel.RockPaperState.Paper)
+			setButtonListener(
+				ibScissors, R.drawable.scissors, RockPaperViewModel.RockPaperState.Scissors
+			)
+			setButtonListener(ibLizard, R.drawable.lizard, RockPaperViewModel.RockPaperState.Lizard)
+			setButtonListener(ibSpock, R.drawable.spock, RockPaperViewModel.RockPaperState.Spock)
+		}
+	}
+
+	private fun setButtonListener(
+		ib: ImageButton, drawable: Int, state: RockPaperViewModel.RockPaperState
+	) {
+		ib.setOnClickListener {
+			with(binding) {
+				ivPlayer.setImageResource(drawable)
 				val statePC = viewModel.generateComputerChoice()
-
-				tvWin.text = viewModel.playGame(
-					playerChoice = RockPaperViewModel.RockPaperState.Rock,
-					computerChoice = statePC
-				)
-
-			}
-			ibPaper.setOnClickListener {
-				ivPlayer.setImageResource(R.drawable.paper)
-				val statePC = viewModel.generateComputerChoice()
-
-				tvWin.text = viewModel.playGame(
-					playerChoice = RockPaperViewModel.RockPaperState.Paper,
-					computerChoice = statePC
-				)
-			}
-			ibScissors.setOnClickListener {
-				ivPlayer.setImageResource(R.drawable.scissors)
-				val statePC = viewModel.generateComputerChoice()
-
-				tvWin.text = viewModel.playGame(
-					playerChoice = RockPaperViewModel.RockPaperState.Scissors,
-					computerChoice = statePC
-				)
-			}
-			ibLizard.setOnClickListener {
-				ivPlayer.setImageResource(R.drawable.lizard)
-				val statePC = viewModel.generateComputerChoice()
-
-				tvWin.text = viewModel.playGame(
-					playerChoice = RockPaperViewModel.RockPaperState.Lizard,
-					computerChoice = statePC
-				)
-			}
-			ibSpock.setOnClickListener {
-				ivPlayer.setImageResource(R.drawable.spock)
-				val statePC = viewModel.generateComputerChoice()
-
-				tvWin.text = viewModel.playGame(
-					playerChoice = RockPaperViewModel.RockPaperState.Spock,
-					computerChoice = statePC
-				)
+				tvWin.text =
+					when (viewModel.playGame(playerChoice = state, computerChoice = statePC)) {
+						"PC" -> getString(R.string.pc_win)
+						"P" -> getString(R.string.player_win)
+						else -> getString(R.string.draw)
+					}
 			}
 		}
 	}

@@ -49,4 +49,6 @@
     <string name="scissors">Scissors</string>
     <string name="lizard">Lizard</string>
     <string name="spock">Spock</string>
+    <string name="pc_win">Computer wins!</string>
+    <string name="player_win">You win!</string>
 </resources>

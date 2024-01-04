@@ -41,7 +41,7 @@
     <string name="row_3_column_2">satır 3 sütun 2</string>
     <string name="row_3_column_3">satır 3 sütun 3</string>
     //Rock Paper Scissors
-    <string name="rock_paper">Taş Kağıt Makas</string>
+    <string name="rock_paper" tools:ignore="Typos">Taş Kağıt Makas</string>
     <string name="you">Siz</string>
     <string name="pc">PC</string>
     <string name="pick_one">Seçiniz</string>
@@ -50,4 +50,6 @@
     <string name="paper" tools:ignore="Typos">Kağıt</string>
     <string name="lizard">Kertenkele</string>
     <string name="spock">Spock</string>
+    <string name="pc_win">Bilgisayar kazandı!</string>
+    <string name="player_win">Kazandınız!</string>
 </resources>
